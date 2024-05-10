@@ -1,0 +1,107 @@
+[gd_scene load_steps=11 format=3 uid="uid://8lbvow7kvv8o"]
+
+[ext_resource type="Texture2D" uid="uid://c0s857f0igiov" path="res://assets/chatacter_base2.png" id="1_cgs2p"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ywym"]
+atlas = ExtResource("1_cgs2p")
+region = Rect2(21, 41, 20, 41)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1vyhq"]
+atlas = ExtResource("1_cgs2p")
+region = Rect2(0, 0, 20, 41)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4s2l3"]
+atlas = ExtResource("1_cgs2p")
+region = Rect2(20, 0, 20, 41)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mk2el"]
+atlas = ExtResource("1_cgs2p")
+region = Rect2(40, 0, 20, 41)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ktie1"]
+atlas = ExtResource("1_cgs2p")
+region = Rect2(1, 82, 20, 41)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lln3j"]
+atlas = ExtResource("1_cgs2p")
+region = Rect2(22, 82, 20, 41)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ihxrr"]
+atlas = ExtResource("1_cgs2p")
+region = Rect2(43, 82, 20, 41)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8uvks"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6ywym")
+}],
+"loop": true,
+"name": &"StandingBack",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 100.0,
+"texture": SubResource("AtlasTexture_1vyhq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4s2l3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mk2el")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4s2l3")
+}],
+"loop": true,
+"name": &"StandingFront",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 100.0,
+"texture": SubResource("AtlasTexture_ktie1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lln3j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ihxrr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lln3j")
+}],
+"loop": true,
+"name": &"StandingSide",
+"speed": 10.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"WalkingSide",
+"speed": 10.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cs8hn"]
+size = Vector2(10, 10)
+
+[node name="WorldCharacter" type="CharacterBody2D"]
+collision_mask = 2
+
+[node name="Animator" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_8uvks")
+animation = &"StandingFront"
+autoplay = "StandingFront"
+frame_progress = 0.218378
+
+[node name="Collider" type="CollisionShape2D" parent="."]
+position = Vector2(1, 11)
+shape = SubResource("RectangleShape2D_cs8hn")
+
+[node name="NavAgent" type="NavigationAgent2D" parent="."]
+target_desired_distance = 194.27
+debug_enabled = true
