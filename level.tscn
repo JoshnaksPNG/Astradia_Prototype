@@ -1,9 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://bm2egshb5gs1h"]
+[gd_scene load_steps=12 format=3 uid="uid://bm2egshb5gs1h"]
 
 [ext_resource type="Texture2D" uid="uid://crlgfvcp6ux3l" path="res://assets/example_tileset.png" id="1_8ohfp"]
 [ext_resource type="PackedScene" uid="uid://8lbvow7kvv8o" path="res://scenes/world_character.tscn" id="2_ue5gw"]
 [ext_resource type="Script" path="res://scripts/world_party_follower.cs" id="3_23u8l"]
 [ext_resource type="Script" path="res://scripts/world_party_head.cs" id="4_l4pkh"]
+[ext_resource type="Texture2D" uid="uid://bq7vp4ls3df45" path="res://assets/test_character.png" id="5_1fg2a"]
+[ext_resource type="Script" path="res://NPCScript.cs" id="6_8mnrq"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yj5ll"]
 texture = ExtResource("1_8ohfp")
@@ -460,9 +462,13 @@ source_geometry_group_name = &"navigation_polygon_source_group"
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mvp4k"]
 size = Vector2(10, 10)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ytwg1"]
+radius = 26.6833
+
 [node name="Level" type="Node2D"]
 
 [node name="WorldMap" type="Node2D" parent="."]
+z_index = -1
 
 [node name="TileMap" type="TileMap" parent="WorldMap"]
 texture_filter = 1
@@ -474,34 +480,63 @@ format = 2
 layer_0/tile_data = PackedInt32Array(0, 327680, 17, 65536, 327680, 17, 131071, 327680, 17, 65535, 327680, 17, -65536, 327680, 16, -1, 327680, 16, -2, 327680, 16, -3, 262144, 16, 65533, 262144, 17, 131069, 262144, 17, -65538, 524288, 18, -65534, 458752, 16, 2, 458752, 16, 65538, 458752, 16, 131074, 393216, 9, -65535, 393216, 16, 1, 393216, 17, 65537, 393216, 17, 131073, 393216, 18, 131072, 327680, 18, 196607, 327680, 18, 196606, 327680, 18, 196605, 262144, 18, 65534, 131072, 17, 131070, 131072, 17, -65537, 524288, 18, -131072, 524288, 18, -131071, 524288, 18, -131070, 327680, 24, -65533, 327680, 15, 3, 327680, 15, 65539, 327680, 24, 65540, 327680, 15, 131076, 327680, 15, 4, 327680, 15, -65532, 327680, 15, 65541, 327680, 15, 5, 327680, 15, 262141, 327680, 15, 262142, 262144, 10, 262143, 262144, 10, 196608, 262144, 10, 262144, 262144, 11, 327679, 262144, 11, 327678, 262144, 11, 327677, 196608, 11, 262146, 393216, 11, 196610, 393216, 10, 131075, 458752, 9, 196611, 458752, 10, 327682, 393216, 12, 327681, 327680, 12, 327680, 327680, 12, 393215, 327680, 12, 393214, 327680, 12, 393213, 327680, 12, 262145, 327680, 11, 196609, 327680, 10)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="WorldMap"]
+visible = false
 position = Vector2(34, 10)
 navigation_polygon = SubResource("NavigationPolygon_uhrkq")
 
-[node name="Party" type="Node2D" parent="."]
+[node name="Sortables" type="Node2D" parent="."]
 y_sort_enabled = true
 
-[node name="WorldCharacter" parent="Party" node_paths=PackedStringArray("partyHead") instance=ExtResource("2_ue5gw")]
+[node name="Party" type="Node2D" parent="Sortables"]
+y_sort_enabled = true
+
+[node name="WorldCharacter" parent="Sortables/Party" node_paths=PackedStringArray("partyHead") instance=ExtResource("2_ue5gw")]
 script = ExtResource("3_23u8l")
 partyHead = NodePath("../../PartyHead")
 
-[node name="WorldCharacter2" parent="Party" node_paths=PackedStringArray("partyHead", "partyNode") instance=ExtResource("2_ue5gw")]
+[node name="WorldCharacter2" parent="Sortables/Party" node_paths=PackedStringArray("partyHead", "partyNode") instance=ExtResource("2_ue5gw")]
 position = Vector2(33, 1)
 script = ExtResource("3_23u8l")
 partyHead = NodePath("../../PartyHead")
 partyNode = NodePath("..")
 partyIndex = 1
 
-[node name="PartyHead" type="CharacterBody2D" parent="."]
+[node name="PartyHead" type="CharacterBody2D" parent="Sortables"]
 collision_mask = 2
 script = ExtResource("4_l4pkh")
 
-[node name="Collider" type="CollisionShape2D" parent="PartyHead"]
+[node name="Collider" type="CollisionShape2D" parent="Sortables/PartyHead"]
 position = Vector2(1, 11)
 shape = SubResource("RectangleShape2D_mvp4k")
 
-[node name="Camera2D" type="Camera2D" parent="PartyHead"]
+[node name="Camera2D" type="Camera2D" parent="Sortables/PartyHead"]
 zoom = Vector2(3, 3)
 position_smoothing_enabled = true
 
-[connection signal="PartyMoving" from="PartyHead" to="Party/WorldCharacter" method="_on_party_head_party_moving"]
-[connection signal="PartyMoving" from="PartyHead" to="Party/WorldCharacter2" method="_on_party_head_party_moving"]
+[node name="UserInterface" type="Control" parent="Sortables/PartyHead/Camera2D"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -194.0
+offset_top = -111.0
+offset_right = 193.0
+offset_bottom = 108.0
+
+[node name="NPCs" type="Node2D" parent="Sortables"]
+
+[node name="TestNPC" type="Sprite2D" parent="Sortables/NPCs" node_paths=PackedStringArray("InteractionArea", "PartyHead")]
+texture_filter = 1
+position = Vector2(-91, -27)
+texture = ExtResource("5_1fg2a")
+centered = false
+script = ExtResource("6_8mnrq")
+InteractionArea = NodePath("Area2D")
+PartyHead = NodePath("../../PartyHead")
+
+[node name="Area2D" type="Area2D" parent="Sortables/NPCs/TestNPC"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sortables/NPCs/TestNPC/Area2D"]
+position = Vector2(8, 29)
+shape = SubResource("CircleShape2D_ytwg1")
+
+[connection signal="PartyMoving" from="Sortables/PartyHead" to="Sortables/Party/WorldCharacter" method="_on_party_head_party_moving"]
+[connection signal="PartyMoving" from="Sortables/PartyHead" to="Sortables/Party/WorldCharacter2" method="_on_party_head_party_moving"]
