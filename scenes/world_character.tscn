@@ -104,4 +104,3 @@ shape = SubResource("RectangleShape2D_cs8hn")
 
 [node name="NavAgent" type="NavigationAgent2D" parent="."]
 target_desired_distance = 22.86
-debug_enabled = true

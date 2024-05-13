@@ -452,9 +452,9 @@ texture = ExtResource("1_8ohfp")
 sources/0 = SubResource("TileSetAtlasSource_yj5ll")
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_uhrkq"]
-vertices = PackedVector2Array(-173, -84, -14, -126, 198, -70, 117, 134, -184, 93)
+vertices = PackedVector2Array(209, -110, 175, 121, -252, 104, -238, -128, -9, -157)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-173, -84, -14, -126, 198, -70, 117, 134, -184, 93)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-248, -137, -9, -168, 221, -119, 184, 132, -263, 114)])
 source_geometry_group_name = &"navigation_polygon_source_group"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mvp4k"]
@@ -478,11 +478,11 @@ position = Vector2(34, 10)
 navigation_polygon = SubResource("NavigationPolygon_uhrkq")
 
 [node name="Party" type="Node2D" parent="."]
+y_sort_enabled = true
 
-[node name="WorldCharacter" parent="Party" node_paths=PackedStringArray("partyHead", "partyNode") instance=ExtResource("2_ue5gw")]
+[node name="WorldCharacter" parent="Party" node_paths=PackedStringArray("partyHead") instance=ExtResource("2_ue5gw")]
 script = ExtResource("3_23u8l")
 partyHead = NodePath("../../PartyHead")
-partyNode = NodePath("..")
 
 [node name="WorldCharacter2" parent="Party" node_paths=PackedStringArray("partyHead", "partyNode") instance=ExtResource("2_ue5gw")]
 position = Vector2(33, 1)
