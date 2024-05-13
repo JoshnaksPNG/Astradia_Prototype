@@ -56,7 +56,6 @@ public partial class world_party_follower : CharacterBody2D
 
 		if (Position.DistanceTo(navAgent.TargetPosition) <= navAgent.TargetDesiredDistance && partyIndex == 0)
 		{
-			GD.Print("test");
 			Position = partyHead.Position;
 		}
 		else if(partyIndex == 0 || Position.DistanceTo(navAgent.TargetPosition) > 20)
