@@ -9,6 +9,9 @@ public partial class NPCScript : Node2D
 	[Export]
 	Node2D PartyHead;
 	
+	[Export]
+	Godot.File Behavior;
+	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
