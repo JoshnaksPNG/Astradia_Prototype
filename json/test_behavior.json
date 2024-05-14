@@ -1,3 +1,38 @@
 {
-	"on_interact": "Print"
+	"on_interact": "speak",
+	"action-context": "d-1",
+	"dialogue": {
+		"d-1": {
+			"text": "I‛m Spongebob! (But gagnster...)",
+			"title": "Gangster Spongebob",
+			"image": "res://assets/test_speaker.png",
+			
+			"next-action": "speak",
+			"action-context": "d-2"
+		},
+		"d-2": {
+			"text": "I will sustain myself upon the sins of your flesh.",
+			"title": "Annoying Orange",
+			"image": "res://assets/test_speaker2.png",
+			
+			"next-action": "speak",
+			"action-context": "d-3"
+		},
+		"d-3": {
+			"text": "Wow! Those sure are some crazy critters!",
+			"title": "Chrono from Chrono Trigger (1993)",
+			"image": "res://assets/test_speaker3.png",
+			
+			"next-action": "speak",
+			"action-context": "d-4"
+		},
+		"d-4": {
+			"text": "I‛m Chrono from Chrono Trigger (1993).",
+			"title": "Chrono from Chrono Trigger (1993)",
+			"image": "res://assets/test_speaker3.png",
+			
+			"next-action": "none",
+			"action-context": ""
+		}
+	}
 }

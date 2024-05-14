@@ -3,7 +3,7 @@ using System;
 
 public partial class world_party_follower : CharacterBody2D
 {
-	public const float Speed = 100.0f;
+	public const float Speed = 300.0f;
 
 	[Export]
 	NavigationAgent2D navAgent;
@@ -58,7 +58,7 @@ public partial class world_party_follower : CharacterBody2D
 		{
 			Position = partyHead.Position;
 		}
-		else if(partyIndex == 0 || Position.DistanceTo(navAgent.TargetPosition) > 20)
+		else if(partyIndex == 0 || Position.DistanceTo(navAgent.TargetPosition) > 60)
 		{
 			Vector2 direction = navAgent.GetNextPathPosition() - GlobalPosition;
 

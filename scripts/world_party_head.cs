@@ -3,13 +3,20 @@ using Godot;
 public partial class world_party_head : CharacterBody2D
 {
 	[Export]
-	public  float Speed = 100.0f;
+	public  float Speed = 300.0f;
 
 	[Signal]
 	public delegate void PartyMovingEventHandler();
 
+	public bool isInInteraction = false;
+
 	public override void _PhysicsProcess(double delta)
 	{
+		if(isInInteraction) 
+		{
+			return;
+		}
+
 		Vector2 velocity = Velocity;
 
 

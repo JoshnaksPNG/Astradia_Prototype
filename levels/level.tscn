@@ -1,15 +1,16 @@
-[gd_scene load_steps=13 format=3 uid="uid://bm2egshb5gs1h"]
+[gd_scene load_steps=15 format=3 uid="uid://bm2egshb5gs1h"]
 
-[ext_resource type="Texture2D" uid="uid://crlgfvcp6ux3l" path="res://assets/example_tileset.png" id="1_8ohfp"]
-[ext_resource type="PackedScene" uid="uid://8lbvow7kvv8o" path="res://scenes/world_character.tscn" id="2_ue5gw"]
-[ext_resource type="Script" path="res://scripts/world_party_follower.cs" id="3_23u8l"]
-[ext_resource type="Script" path="res://scripts/world_party_head.cs" id="4_l4pkh"]
-[ext_resource type="Texture2D" uid="uid://bq7vp4ls3df45" path="res://assets/test_character.png" id="5_1fg2a"]
-[ext_resource type="Script" path="res://NPCScript.cs" id="6_8mnrq"]
-[ext_resource type="JSON" path="res://json/test_behavior.json" id="7_2drec"]
+[ext_resource type="Texture2D" uid="uid://crlgfvcp6ux3l" path="res://assets/example_tileset.png" id="1_sd7qr"]
+[ext_resource type="PackedScene" uid="uid://8lbvow7kvv8o" path="res://scenes/world_character.tscn" id="2_b82tv"]
+[ext_resource type="Script" path="res://scripts/world_party_follower.cs" id="3_58w70"]
+[ext_resource type="Script" path="res://scripts/world_party_head.cs" id="4_ef61d"]
+[ext_resource type="Texture2D" uid="uid://bw4ynbdoebqyo" path="res://assets/DialogueTestBox.png" id="5_8ti2o"]
+[ext_resource type="Texture2D" uid="uid://bq7vp4ls3df45" path="res://assets/test_character.png" id="6_eeqmo"]
+[ext_resource type="Script" path="res://scripts/NPCScript.cs" id="7_qx5lk"]
+[ext_resource type="JSON" path="res://json/test_behavior.json" id="8_drril"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yj5ll"]
-texture = ExtResource("1_8ohfp")
+texture = ExtResource("1_sd7qr")
 1:0/0 = 0
 2:0/0 = 0
 3:0/0 = 0
@@ -455,13 +456,16 @@ texture = ExtResource("1_8ohfp")
 sources/0 = SubResource("TileSetAtlasSource_yj5ll")
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_uhrkq"]
-vertices = PackedVector2Array(209, -110, 175, 121, -252, 104, -238, -128, -9, -157)
+vertices = PackedVector2Array(597, 71, 537, 357, -693, 382, -720, -331, 583, -334)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-248, -137, -9, -168, 221, -119, 184, 132, -263, 114)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-731, -341, 593, -345, 607, 71, 546, 367, -703, 393)])
 source_geometry_group_name = &"navigation_polygon_source_group"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mvp4k"]
-size = Vector2(10, 10)
+size = Vector2(30, 30)
+
+[sub_resource type="Theme" id="Theme_i0clu"]
+default_font_size = 17
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ytwg1"]
 radius = 26.6833
@@ -474,14 +478,13 @@ z_index = -1
 [node name="TileMap" type="TileMap" parent="WorldMap"]
 texture_filter = 1
 position = Vector2(1, 0)
-scale = Vector2(1.075, 1.075)
+scale = Vector2(3, 3)
 tile_set = SubResource("TileSet_u322i")
 rendering_quadrant_size = 18
 format = 2
 layer_0/tile_data = PackedInt32Array(0, 327680, 17, 65536, 327680, 17, 131071, 327680, 17, 65535, 327680, 17, -65536, 327680, 16, -1, 327680, 16, -2, 327680, 16, -3, 262144, 16, 65533, 327680, 17, 131069, 327680, 17, -65538, 524288, 18, -65534, 458752, 16, 2, 458752, 16, 65538, 458752, 16, 131074, 393216, 9, -65535, 393216, 16, 1, 393216, 17, 65537, 393216, 17, 131073, 393216, 18, 131072, 327680, 18, 196607, 327680, 18, 196606, 327680, 18, 196605, 262144, 18, 65534, 131072, 17, 131070, 131072, 17, -65537, 524288, 18, -131072, 524288, 18, -131071, 524288, 18, -131070, 589824, 18, -65533, 327680, 15, 3, 327680, 15, 65539, 327680, 24, 65540, 327680, 15, 131076, 327680, 15, 4, 327680, 15, -65532, 327680, 15, 65541, 327680, 15, 5, 327680, 15, 262141, 327680, 15, 262142, 262144, 10, 262143, 262144, 10, 196608, 262144, 10, 262144, 262144, 11, 327679, 262144, 11, 327678, 262144, 11, 327677, 196608, 11, 262146, 393216, 11, 196610, 393216, 10, 131075, 458752, 9, 196611, 458752, 10, 327682, 393216, 12, 327681, 327680, 12, 327680, 327680, 12, 393215, 327680, 12, 393214, 327680, 12, 393213, 327680, 12, 262145, 327680, 11, 196609, 327680, 10, 65532, 327680, 17, 131068, 327680, 17, 131067, 327680, 17, 131066, 327680, 17, 65530, 327680, 17, -6, 327680, 17, -5, 327680, 17, 65531, 327680, 17, -65541, 327680, 17, -65542, 327680, 17, -7, 327680, 17, 65529, 327680, 17, -4, 655360, 10, 196604, 393216, 18, -65540, 655360, 10, -131077, 327680, 16, -131078, 327680, 16, -65543, 327680, 17, -131079, 589824, 9, 131065, 327680, 17, 196600, 524288, 11, 196603, 589824, 11, 196602, 589824, 11, 196601, 589824, 11, -65539, 458752, 18, -131075, 458752, 17, -131074, 65536, 18, -131073, 65536, 18, -196608, 65536, 18, -262144, 65536, 18, -262143, 655360, 17, -196607, 65536, 18, -196606, 589824, 17, -262142, 589824, 16, -196609, 65536, 18, -196610, 65536, 18, -196611, 458752, 17, -196612, 524288, 17, -131076, 655360, 9, -262148, 524288, 17, -262149, 786432, 10, -262150, 786432, 10, -262151, 786432, 10, -262152, 786432, 10, -196616, 786432, 10, -196617, 786432, 10, -131081, 786432, 10, -131082, 786432, 10, -65546, 786432, 10, -65545, 786432, 10, -9, 786432, 10, 65527, 786432, 10, 65526, 786432, 10, -131080, 524288, 9, -65544, 524288, 10, -8, 524288, 10, 65528, 524288, 10, 131064, 524288, 10, 131063, 786432, 10, -10, 786432, 10, 131062, 786432, 10, 196598, 65536, 9, 262134, 65536, 10, 262135, 327680, 10, 196597, 0, 9, 262133, 0, 10, 393206, 65536, 12, 393207, 327680, 12, 393208, 327680, 12, 393209, 327680, 12, 393210, 327680, 12, 393211, 327680, 12, 393212, 327680, 12, 327676, 327680, 11, 327675, 327680, 11, 327674, 327680, 11, 327673, 262144, 11, 327672, 327680, 11, 327671, 327680, 11, 327670, 65536, 11, 262140, 327680, 10, 262139, 262144, 10, 262138, 262144, 10, 262137, 327680, 10, 262136, 262144, 10, 196599, 131072, 9, -196613, 786432, 10, -196614, 786432, 10, -196615, 786432, 10, -262147, 458752, 16, -262146, 524288, 16, -262145, 524288, 16, -327680, 524288, 16, -327679, 589824, 16, -327678, 524288, 17, -262141, 524288, 17, -196605, 524288, 17, -131069, 524288, 17)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="WorldMap"]
-visible = false
 position = Vector2(34, 10)
 navigation_polygon = SubResource("NavigationPolygon_uhrkq")
 
@@ -491,48 +494,102 @@ y_sort_enabled = true
 [node name="Party" type="Node2D" parent="Sortables"]
 y_sort_enabled = true
 
-[node name="WorldCharacter" parent="Sortables/Party" node_paths=PackedStringArray("partyHead") instance=ExtResource("2_ue5gw")]
-script = ExtResource("3_23u8l")
+[node name="WorldCharacter" parent="Sortables/Party" node_paths=PackedStringArray("partyHead") instance=ExtResource("2_b82tv")]
+position = Vector2(-35.71, 0)
+scale = Vector2(3, 3)
+script = ExtResource("3_58w70")
 partyHead = NodePath("../../PartyHead")
 
-[node name="WorldCharacter2" parent="Sortables/Party" node_paths=PackedStringArray("partyHead", "partyNode") instance=ExtResource("2_ue5gw")]
+[node name="WorldCharacter2" parent="Sortables/Party" node_paths=PackedStringArray("partyHead", "partyNode") instance=ExtResource("2_b82tv")]
 position = Vector2(33, 1)
-script = ExtResource("3_23u8l")
+scale = Vector2(3, 3)
+script = ExtResource("3_58w70")
 partyHead = NodePath("../../PartyHead")
 partyNode = NodePath("..")
 partyIndex = 1
 
+[node name="WorldCharacter3" parent="Sortables/Party" node_paths=PackedStringArray("partyHead", "partyNode") instance=ExtResource("2_b82tv")]
+position = Vector2(33, 1)
+scale = Vector2(3, 3)
+script = ExtResource("3_58w70")
+partyHead = NodePath("../../PartyHead")
+partyNode = NodePath("..")
+partyIndex = 2
+
 [node name="PartyHead" type="CharacterBody2D" parent="Sortables"]
+position = Vector2(-31, 25)
 collision_mask = 2
-script = ExtResource("4_l4pkh")
+script = ExtResource("4_ef61d")
 
 [node name="Collider" type="CollisionShape2D" parent="Sortables/PartyHead"]
 position = Vector2(1, 11)
 shape = SubResource("RectangleShape2D_mvp4k")
 
 [node name="Camera2D" type="Camera2D" parent="Sortables/PartyHead"]
-zoom = Vector2(3, 3)
 position_smoothing_enabled = true
+position_smoothing_speed = 30.0
 
 [node name="UserInterface" type="Control" parent="Sortables/PartyHead/Camera2D"]
+texture_filter = 1
 layout_mode = 3
 anchors_preset = 0
-offset_left = -193.0
-offset_top = -107.0
-offset_right = 191.0
-offset_bottom = 108.0
+offset_left = -576.0
+offset_top = -325.0
+offset_right = 576.0
+offset_bottom = 325.0
+theme = SubResource("Theme_i0clu")
+
+[node name="DialogueBox" type="Control" parent="Sortables/PartyHead/Camera2D/UserInterface"]
+visible = false
+anchors_preset = 0
+offset_left = 75.0
+offset_top = 483.0
+offset_right = 1075.0
+offset_bottom = 633.0
+
+[node name="TextBackground" type="TextureRect" parent="Sortables/PartyHead/Camera2D/UserInterface/DialogueBox"]
+texture_filter = 1
+layout_mode = 0
+offset_right = 1000.0
+offset_bottom = 150.0
+texture = ExtResource("5_8ti2o")
+expand_mode = 1
+
+[node name="SpeakerImage" type="TextureRect" parent="Sortables/PartyHead/Camera2D/UserInterface/DialogueBox"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 4.0
+offset_right = 153.0
+offset_bottom = 145.0
+expand_mode = 1
+
+[node name="DialogueText" type="RichTextLabel" parent="Sortables/PartyHead/Camera2D/UserInterface/DialogueBox"]
+layout_mode = 0
+offset_left = 191.0
+offset_top = 47.0
+offset_right = 977.0
+offset_bottom = 136.0
+
+[node name="SpeakerName" type="RichTextLabel" parent="Sortables/PartyHead/Camera2D/UserInterface/DialogueBox"]
+layout_mode = 0
+offset_left = 189.0
+offset_top = 7.0
+offset_right = 940.0
+offset_bottom = 34.0
 
 [node name="NPCs" type="Node2D" parent="Sortables"]
 
-[node name="TestNPC" type="Sprite2D" parent="Sortables/NPCs" node_paths=PackedStringArray("InteractionArea", "PartyHead")]
+[node name="TestNPC" type="Sprite2D" parent="Sortables/NPCs" node_paths=PackedStringArray("InteractionArea", "PartyHead", "UI")]
 texture_filter = 1
-position = Vector2(-91, -27)
-texture = ExtResource("5_1fg2a")
+position = Vector2(-285.695, -100)
+scale = Vector2(3, 3)
+texture = ExtResource("6_eeqmo")
 centered = false
-script = ExtResource("6_8mnrq")
+script = ExtResource("7_qx5lk")
 InteractionArea = NodePath("Area2D")
 PartyHead = NodePath("../../PartyHead")
-Behavior = ExtResource("7_2drec")
+Behavior = ExtResource("8_drril")
+UI = NodePath("../../PartyHead/Camera2D/UserInterface")
 
 [node name="Area2D" type="Area2D" parent="Sortables/NPCs/TestNPC"]
 
