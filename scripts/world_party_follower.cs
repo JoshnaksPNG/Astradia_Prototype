@@ -62,8 +62,6 @@ public partial class world_party_follower : CharacterBody2D
 		{
 			Vector2 direction = navAgent.GetNextPathPosition() - GlobalPosition;
 
-			//if(direction.)
-
 			Velocity = direction.Normalized() * Speed;
 
 			MoveAndSlide();

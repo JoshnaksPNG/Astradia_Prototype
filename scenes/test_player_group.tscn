@@ -1,0 +1,44 @@
+[gd_scene load_steps=11 format=3 uid="uid://d0cf2d1jlypok"]
+
+[ext_resource type="Script" path="res://scripts/TestPlayerGroup.cs" id="1_avjoh"]
+[ext_resource type="PackedScene" uid="uid://7o8kyide8a7o" path="res://scenes/test_combatant.tscn" id="2_6tj1h"]
+[ext_resource type="Texture2D" uid="uid://bd1v5qsp4gc7p" path="res://assets/character_battle_1.png" id="3_wu5ht"]
+[ext_resource type="Texture2D" uid="uid://cqks4f7dw6lch" path="res://assets/character_battle_2.png" id="4_hyf2q"]
+[ext_resource type="JSON" path="res://json/CombatMovesets/test_moveset.json" id="4_w8eep"]
+[ext_resource type="JSON" path="res://json/CombatMovesets/test_moveset2.json" id="5_7wfdj"]
+[ext_resource type="Texture2D" uid="uid://bnh0k51coxjve" path="res://assets/character_battle_3.png" id="5_r2tr4"]
+[ext_resource type="Texture2D" uid="uid://b5g5as0rchpcs" path="res://assets/character_battle_4.png" id="6_1oeou"]
+[ext_resource type="JSON" path="res://json/CombatMovesets/test_moveset3.json" id="7_6w3h4"]
+[ext_resource type="JSON" path="res://json/CombatMovesets/test_moveset4.json" id="9_lqsj8"]
+
+[node name="test_player_group" type="Node2D"]
+script = ExtResource("1_avjoh")
+
+[node name="TestCombatant1" parent="." instance=ExtResource("2_6tj1h")]
+MovesetJSON = ExtResource("4_w8eep")
+
+[node name="Sprite2D" parent="TestCombatant1" index="0"]
+texture = ExtResource("3_wu5ht")
+
+[node name="TestCombatant2" parent="." instance=ExtResource("2_6tj1h")]
+MovesetJSON = ExtResource("5_7wfdj")
+
+[node name="Sprite2D" parent="TestCombatant2" index="0"]
+texture = ExtResource("4_hyf2q")
+
+[node name="TestCombatant3" parent="." instance=ExtResource("2_6tj1h")]
+MovesetJSON = ExtResource("7_6w3h4")
+
+[node name="Sprite2D" parent="TestCombatant3" index="0"]
+texture = ExtResource("5_r2tr4")
+
+[node name="TestCombatant4" parent="." instance=ExtResource("2_6tj1h")]
+MovesetJSON = ExtResource("9_lqsj8")
+
+[node name="Sprite2D" parent="TestCombatant4" index="0"]
+texture = ExtResource("6_1oeou")
+
+[editable path="TestCombatant1"]
+[editable path="TestCombatant2"]
+[editable path="TestCombatant3"]
+[editable path="TestCombatant4"]

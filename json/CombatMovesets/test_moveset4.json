@@ -1,0 +1,6 @@
+{
+	"moves": [
+		"battle_action.test_multi_targ",
+		"battle_action.test.stats_action"
+	]
+}

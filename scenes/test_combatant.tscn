@@ -1,0 +1,124 @@
+[gd_scene load_steps=10 format=3 uid="uid://7o8kyide8a7o"]
+
+[ext_resource type="Script" path="res://scripts/TestCombatant.cs" id="1_bq2y3"]
+[ext_resource type="Texture2D" uid="uid://64qdb3xhsgtq" path="res://assets/character_battle.png" id="1_jpcqi"]
+[ext_resource type="Texture2D" uid="uid://c2276wjip1pcj" path="res://assets/focus_indicator.png" id="2_yqe7t"]
+
+[sub_resource type="Animation" id="Animation_f5xc1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_kuun2"]
+resource_name = "attack"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(0.615686, 0.945098, 0.847059, 1), Color(1, 1, 1, 1), Color(0.615686, 0.945098, 0.847059, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_gi2bm"]
+resource_name = "hurt"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(30, 30, 30, 1), Color(1, 1, 1, 1), Color(30, 30, 30, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_b22ev"]
+resource_name = "swap_in"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 0.254902, 0.254902, 0), Color(1, 0.254902, 0.254902, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_njmu3"]
+resource_name = "swap_out"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0, 1, 1, 1), Color(0, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ov0nj"]
+_data = {
+"RESET": SubResource("Animation_f5xc1"),
+"attack": SubResource("Animation_kuun2"),
+"hurt": SubResource("Animation_gi2bm"),
+"swap_in": SubResource("Animation_b22ev"),
+"swap_out": SubResource("Animation_njmu3")
+}
+
+[node name="TestCombatant" type="CharacterBody2D" node_paths=PackedStringArray("FocusSprite", "HealthBar", "Animator")]
+script = ExtResource("1_bq2y3")
+FocusSprite = NodePath("Focus")
+HealthBar = NodePath("ProgressBar")
+Animator = NodePath("AnimationPlayer")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(3, 3)
+texture = ExtResource("1_jpcqi")
+
+[node name="Focus" type="Sprite2D" parent="."]
+visible = false
+texture_filter = 1
+position = Vector2(-70, 0)
+scale = Vector2(3, 3)
+texture = ExtResource("2_yqe7t")
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = -82.0
+offset_top = 52.0
+offset_right = 82.0
+offset_bottom = 79.0
+value = 100.0
+show_percentage = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ov0nj")
+}

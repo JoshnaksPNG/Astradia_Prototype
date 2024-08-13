@@ -1,0 +1,95 @@
+[gd_scene load_steps=6 format=3 uid="uid://cnu7xskrya126"]
+
+[ext_resource type="Texture2D" uid="uid://cpkspi2adekb" path="res://assets/battleBackground.png" id="1_8xdau"]
+[ext_resource type="Script" path="res://scripts/TestBattleScene.cs" id="1_ean5r"]
+[ext_resource type="PackedScene" uid="uid://djyqf1xfsgwao" path="res://scenes/test_enemy_group.tscn" id="1_g84ol"]
+[ext_resource type="PackedScene" uid="uid://d0cf2d1jlypok" path="res://scenes/test_player_group.tscn" id="3_cnei4"]
+[ext_resource type="PackedScene" uid="uid://cvj36tnwmrcvi" path="res://scenes/test_partner_group.tscn" id="5_punxp"]
+
+[node name="test_battle_scene" type="Node2D" node_paths=PackedStringArray("EnemyGroup", "PartyGroup", "PartnerGroup", "ChoiceBox", "ActionBox", "BattleActionView")]
+script = ExtResource("1_ean5r")
+EnemyGroup = NodePath("test_enemy_group")
+PartyGroup = NodePath("test_player_group")
+PartnerGroup = NodePath("test_partner_group")
+ChoiceBox = NodePath("UI/Choice")
+ActionBox = NodePath("UI/BattleActionNode/VBoxContainer")
+BattleActionView = NodePath("UI/BattleActionNode")
+ActionButtonScenePath = "res://scenes/action_button.tscn"
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = ExtResource("1_8xdau")
+
+[node name="test_enemy_group" parent="." node_paths=PackedStringArray("ChoiceBox") instance=ExtResource("1_g84ol")]
+position = Vector2(980, 0)
+ChoiceBox = NodePath("../UI/Choice")
+
+[node name="test_player_group" parent="." instance=ExtResource("3_cnei4")]
+position = Vector2(132, 0)
+
+[node name="test_partner_group" parent="." instance=ExtResource("5_punxp")]
+position = Vector2(-94.715, 0)
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Choice" type="VBoxContainer" parent="UI"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = -108.0
+offset_right = 124.0
+grow_vertical = 0
+size_flags_horizontal = 2
+size_flags_vertical = 10
+
+[node name="Attack" type="Button" parent="UI/Choice"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../Run")
+focus_neighbor_bottom = NodePath("../Defend")
+focus_next = NodePath("../Defend")
+focus_previous = NodePath("../Run")
+text = "Attack
+"
+
+[node name="Defend" type="Button" parent="UI/Choice"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../Attack")
+focus_neighbor_bottom = NodePath("../Run")
+focus_next = NodePath("../Run")
+focus_previous = NodePath("../Attack")
+text = "Defend"
+
+[node name="Run" type="Button" parent="UI/Choice"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../Defend")
+focus_neighbor_bottom = NodePath("../Attack")
+focus_next = NodePath("../Attack")
+focus_previous = NodePath("../Defend")
+text = "Run"
+
+[node name="BattleActionNode" type="Control" parent="UI"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 233.0
+offset_top = 113.0
+offset_right = 901.0
+offset_bottom = 504.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/BattleActionNode"]
+layout_mode = 0
+offset_right = 599.0
+offset_bottom = 371.0
+
+[node name="ActionQueue" type="Control" parent="UI"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 599.0
+offset_top = 200.0
+offset_right = 891.0
+offset_bottom = 618.0
+
+[connection signal="pressed" from="UI/Choice/Attack" to="test_enemy_group" method="_on_attack_pressed"]
