@@ -38,18 +38,18 @@ public partial class BattleScene : Node2D
 
     BattleState CurrentState = BattleState.ChooseSource;
 
-    TestCombatant SelectedSource;
-    Array<TestCombatant> SelectedTargets;
+    Combatant SelectedSource;
+    Array<Combatant> SelectedTargets;
     BattleAction SelectedAction;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        ActionQueue = new List<ActionContext>();
-        SelectedTargets = new Array<TestCombatant>();
+        ActionQueue = new();
+        SelectedTargets = new();
 
         PartySelectionIndex = 0;
-        ((TestCombatant)Vanguard.PartyMembers[PartySelectionIndex])._Focus();
+        ((Combatant)Vanguard.PartyMembers[PartySelectionIndex])._Focus();
 
         ActionButtonScene = GD.Load<PackedScene>(ActionButtonScenePath);
 
@@ -59,18 +59,18 @@ public partial class BattleScene : Node2D
         {
             //if (i < rearguard.Count)
             {
-                ((TestCombatant)vanguard[i]).SwapPartner = ((TestCombatant)rearguard[i]);
-                ((TestCombatant)vanguard[i]).HasPartner = true;
+                ((Combatant)vanguard[i]).SwapPartner = ((Combatant)rearguard[i]);
+                ((Combatant)vanguard[i]).HasPartner = true;
 
-                ((TestCombatant)rearguard[i]).SwapPartner = ((TestCombatant)vanguard[i]);
-                ((TestCombatant)rearguard[i]).HasPartner = true;
+                ((Combatant)rearguard[i]).SwapPartner = ((Combatant)vanguard[i]);
+                ((Combatant)rearguard[i]).HasPartner = true;
 
-                ((TestCombatant)vanguard[i]).Moveset.Add(new SwapAction());
-                ((TestCombatant)rearguard[i]).Moveset.Add(new SwapAction());
+                ((Combatant)vanguard[i]).Moveset.Add(new SwapAction());
+                ((Combatant)rearguard[i]).Moveset.Add(new SwapAction());
             }
             //else
             {
-                //((TestCombatant)vanguard[i]).HasPartner = false;
+                //((Combatant)vanguard[i]).HasPartner = false;
             }
 
         }
@@ -136,8 +136,8 @@ public partial class BattleScene : Node2D
 
         if (Input.IsActionJustPressed("ui_interact"))
         {
-            SelectedSource = (TestCombatant)Vanguard.PartyMembers[PartySelectionIndex];
-            ((TestCombatant)Vanguard.PartyMembers[PartySelectionIndex])._Unfocus();
+            SelectedSource = (Combatant)Vanguard.PartyMembers[PartySelectionIndex];
+            ((Combatant)Vanguard.PartyMembers[PartySelectionIndex])._Unfocus();
             PartySelectionIndex = 0;
 
             CurrentState = BattleState.ChooseAction;
@@ -159,7 +159,7 @@ public partial class BattleScene : Node2D
                     _CloseActions();
 
                     EnemySelectionIndex = 0;
-                    ((TestCombatant)_EnemyGroup.enemies[EnemySelectionIndex])._Focus();
+                    ((Combatant)_EnemyGroup.enemies[EnemySelectionIndex])._Focus();
                     break;
                 }
             }
@@ -203,7 +203,7 @@ public partial class BattleScene : Node2D
 
         if (Input.IsActionJustPressed("ui_interact"))
         {
-            SelectedTargets.Add((TestCombatant)_EnemyGroup.enemies[EnemySelectionIndex]);
+            SelectedTargets.Add((Combatant)_EnemyGroup.enemies[EnemySelectionIndex]);
 
             if (SelectedAction.targetNum == SelectedTargets.Count)
             {
@@ -213,12 +213,12 @@ public partial class BattleScene : Node2D
                 SelectedTargets.Clear();
 
                 CurrentState = ActionQueue.Count >= Vanguard.GetChildren().Count ? BattleState.CallingQueue : BattleState.ChooseSource;
-                ((TestCombatant)_EnemyGroup.enemies[EnemySelectionIndex])._Unfocus();
+                ((Combatant)_EnemyGroup.enemies[EnemySelectionIndex])._Unfocus();
 
                 if (ActionQueue.Count < Vanguard.GetChildren().Count)
                 {
                     PartySelectionIndex = 0;
-                    ((TestCombatant)Vanguard.PartyMembers[PartySelectionIndex])._Focus();
+                    ((Combatant)Vanguard.PartyMembers[PartySelectionIndex])._Focus();
                 }
             }
         }
@@ -231,12 +231,12 @@ public partial class BattleScene : Node2D
             SelectedTargets.Clear();
 
             CurrentState = ActionQueue.Count >= Vanguard.GetChildren().Count ? BattleState.CallingQueue : BattleState.ChooseSource;
-            ((TestCombatant)_EnemyGroup.enemies[EnemySelectionIndex])._Unfocus();
+            ((Combatant)_EnemyGroup.enemies[EnemySelectionIndex])._Unfocus();
 
             if (ActionQueue.Count < Vanguard.GetChildren().Count)
             {
                 PartySelectionIndex = 0;
-                ((TestCombatant)Vanguard.PartyMembers[PartySelectionIndex])._Focus();
+                ((Combatant)Vanguard.PartyMembers[PartySelectionIndex])._Focus();
             }
         }
 
@@ -260,7 +260,7 @@ public partial class BattleScene : Node2D
         {
             List<BattleEffect> removedEffects = new();
 
-            foreach (var effect in ((TestCombatant)combatant).Effects)
+            foreach (var effect in ((Combatant)combatant).Effects)
             {
                 effect._ExecuteEffect();
 
@@ -272,7 +272,7 @@ public partial class BattleScene : Node2D
 
             foreach (var effect in removedEffects)
             {
-                ((TestCombatant)combatant).Effects.Remove(effect);
+                ((Combatant)combatant).Effects.Remove(effect);
             }
         }
 
@@ -281,7 +281,7 @@ public partial class BattleScene : Node2D
         {
             List<BattleEffect> removedEffects = new();
 
-            foreach (var effect in ((TestCombatant)combatant).Effects)
+            foreach (var effect in ((Combatant)combatant).Effects)
             {
                 effect._ExecuteEffect();
 
@@ -293,7 +293,7 @@ public partial class BattleScene : Node2D
 
             foreach (var effect in removedEffects)
             {
-                ((TestCombatant)combatant).Effects.Remove(effect);
+                ((Combatant)combatant).Effects.Remove(effect);
             }
         }
 
@@ -315,7 +315,7 @@ public partial class BattleScene : Node2D
         ActionQueue.Clear();
 
         PartySelectionIndex = 0;
-        ((TestCombatant)Vanguard.PartyMembers[PartySelectionIndex])._Focus();
+        ((Combatant)Vanguard.PartyMembers[PartySelectionIndex])._Focus();
 
         ShowingBattleMotions = false;
         _ShowChoiceBox();
@@ -341,16 +341,16 @@ public partial class BattleScene : Node2D
 
         foreach (var enemy in _EnemyGroup.enemies)
         {
-            ((TestCombatant)enemy)._Unfocus();
+            ((Combatant)enemy)._Unfocus();
         }
 
         foreach (var member in Vanguard.PartyMembers)
         {
-            ((TestCombatant)member)._Unfocus();
+            ((Combatant)member)._Unfocus();
         }
 
-        ((TestCombatant)_EnemyGroup.enemies[EnemySelectionIndex])._Focus();
-        ((TestCombatant)Vanguard.PartyMembers[PartySelectionIndex])._Focus();
+        ((Combatant)_EnemyGroup.enemies[EnemySelectionIndex])._Focus();
+        ((Combatant)Vanguard.PartyMembers[PartySelectionIndex])._Focus();
     }
 
     public void _on_attack_pressed()

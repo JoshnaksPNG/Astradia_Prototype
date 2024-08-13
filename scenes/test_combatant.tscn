@@ -95,7 +95,7 @@ _data = {
 [node name="TestCombatant" type="CharacterBody2D" node_paths=PackedStringArray("FocusSprite", "HealthBar", "Animator")]
 script = ExtResource("1_bq2y3")
 FocusSprite = NodePath("Focus")
-HealthBar = NodePath("ProgressBar")
+HealthBar = NodePath("HealthBar")
 Animator = NodePath("AnimationPlayer")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -110,7 +110,7 @@ position = Vector2(-70, 0)
 scale = Vector2(3, 3)
 texture = ExtResource("2_yqe7t")
 
-[node name="ProgressBar" type="ProgressBar" parent="."]
+[node name="HealthBar" type="ProgressBar" parent="."]
 offset_left = -82.0
 offset_top = 52.0
 offset_right = 82.0
