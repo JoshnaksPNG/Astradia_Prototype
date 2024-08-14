@@ -5,11 +5,11 @@ using System.Diagnostics;
 
 public class ActionContext
 {
-    TestCombatant Source;
-    Array<TestCombatant> Targets;
+    Combatant Source;
+    Array<Combatant> Targets;
     public BattleAction Action;
 
-    public ActionContext(TestCombatant source, Array<TestCombatant> targets, BattleAction action)
+    public ActionContext(Combatant source, Array<Combatant> targets, BattleAction action)
     {
         Source = source;
         Targets = new();

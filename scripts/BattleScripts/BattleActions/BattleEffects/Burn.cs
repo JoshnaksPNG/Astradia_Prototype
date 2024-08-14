@@ -2,11 +2,11 @@ using Godot;
 using System;
 using System.Diagnostics;
 
-public class TestBurn : BattleEffect
+public class Burn : BattleEffect
 {
-    TestCombatant Target;
+    Combatant Target;
 
-    public TestBurn(int timer, TestCombatant target) : base(timer)
+    public Burn(int timer, Combatant target) : base(timer)
     {
         Target = target;
     }
@@ -18,9 +18,7 @@ public class TestBurn : BattleEffect
 
     public override void _ExecuteEffect()
     {
-        Target._TakeDamage(5);
-
-        Debug.WriteLine("Test Burn");
+        Target._TakeMagicDamage(5, new() { Magictype.Fire });
 
         Timer -= 1;
     }

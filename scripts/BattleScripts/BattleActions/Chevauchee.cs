@@ -20,9 +20,9 @@ public partial class Chevauchee : BattleAction
     {
         foreach (var target in Targets)
         {
-            target.Effects.Add(new TestBurn(3, target));
+            target.Effects.Add(new Burn(3, target));
 
-            target._TakeDamage(30);
+            target._TakeMagicDamage(30, MagicTypes);
         }
     }
 }

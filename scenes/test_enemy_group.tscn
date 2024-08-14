@@ -1,20 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://djyqf1xfsgwao"]
+[gd_scene load_steps=3 format=3 uid="uid://djyqf1xfsgwao"]
 
-[ext_resource type="Script" path="res://scripts/TestEnemyGroup.cs" id="1_uaa48"]
+[ext_resource type="Script" path="res://scripts/BattleScripts/CombatantGroup.cs" id="1_v2qln"]
 [ext_resource type="PackedScene" uid="uid://7o8kyide8a7o" path="res://scenes/test_combatant.tscn" id="2_1gfmi"]
-[ext_resource type="JSON" path="res://json/CombatMovesets/test_moveset.json" id="3_x4xii"]
 
 [node name="test_enemy_group" type="Node2D"]
-script = ExtResource("1_uaa48")
+script = ExtResource("1_v2qln")
 
 [node name="TestCombatant" parent="." instance=ExtResource("2_1gfmi")]
-MovesetJSON = ExtResource("3_x4xii")
 
 [node name="TestCombatant2" parent="." instance=ExtResource("2_1gfmi")]
-MovesetJSON = ExtResource("3_x4xii")
 
 [node name="TestCombatant3" parent="." instance=ExtResource("2_1gfmi")]
-MovesetJSON = ExtResource("3_x4xii")
 
 [node name="TestCombatant4" parent="." instance=ExtResource("2_1gfmi")]
-MovesetJSON = ExtResource("3_x4xii")

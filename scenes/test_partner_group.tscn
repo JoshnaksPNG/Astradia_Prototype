@@ -1,38 +1,30 @@
-[gd_scene load_steps=10 format=3 uid="uid://cvj36tnwmrcvi"]
+[gd_scene load_steps=6 format=3 uid="uid://cvj36tnwmrcvi"]
 
-[ext_resource type="Script" path="res://scripts/TestPartnerGroup.cs" id="1_2j01h"]
+[ext_resource type="Script" path="res://scripts/BattleScripts/CombatantGroup.cs" id="1_do6j0"]
 [ext_resource type="PackedScene" uid="uid://7o8kyide8a7o" path="res://scenes/test_combatant.tscn" id="2_wewnf"]
 [ext_resource type="Texture2D" uid="uid://dvkxb02lpo5ou" path="res://assets/character_battle_5.png" id="3_8nsjb"]
-[ext_resource type="JSON" path="res://json/CombatMovesets/test_moveset4.json" id="3_tvd38"]
 [ext_resource type="Texture2D" uid="uid://cvb5rucuk0je4" path="res://assets/character_battle_6.png" id="4_jgtd6"]
 [ext_resource type="Texture2D" uid="uid://btwvpkgjd35pl" path="res://assets/character_battle_7.png" id="5_e6pl0"]
-[ext_resource type="JSON" path="res://json/CombatMovesets/test_moveset3.json" id="5_eek62"]
-[ext_resource type="JSON" path="res://json/CombatMovesets/test_moveset2.json" id="7_1p1gf"]
-[ext_resource type="JSON" path="res://json/CombatMovesets/test_moveset.json" id="7_iaivj"]
 
 [node name="test_partner_group" type="Node2D"]
-script = ExtResource("1_2j01h")
+script = ExtResource("1_do6j0")
 
 [node name="TestCombatant1P" parent="." instance=ExtResource("2_wewnf")]
-MovesetJSON = ExtResource("3_tvd38")
 
 [node name="Sprite2D" parent="TestCombatant1P" index="0"]
 texture = ExtResource("3_8nsjb")
 
 [node name="TestCombatant2P" parent="." instance=ExtResource("2_wewnf")]
-MovesetJSON = ExtResource("5_eek62")
 
 [node name="Sprite2D" parent="TestCombatant2P" index="0"]
 texture = ExtResource("4_jgtd6")
 
 [node name="TestCombatant" parent="." instance=ExtResource("2_wewnf")]
-MovesetJSON = ExtResource("7_iaivj")
 
 [node name="Sprite2D" parent="TestCombatant" index="0"]
 texture = ExtResource("5_e6pl0")
 
 [node name="TestCombatant2" parent="." instance=ExtResource("2_wewnf")]
-MovesetJSON = ExtResource("7_1p1gf")
 
 [editable path="TestCombatant1P"]
 [editable path="TestCombatant2P"]

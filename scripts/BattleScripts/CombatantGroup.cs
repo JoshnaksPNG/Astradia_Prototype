@@ -4,7 +4,7 @@ using System;
 
 public partial class CombatantGroup : Node2D
 {
-    public Array<TestCombatant> Combatants;
+    public Array<Combatant> Combatants;
 
     [Export]
     int OffsetFromTop = 60;
@@ -20,7 +20,7 @@ public partial class CombatantGroup : Node2D
         _PositionCombatants();
     }
 
-    public void _AddCombatant(TestCombatant c)
+    public void _AddCombatant(Combatant c)
     {
         Combatants.Add(c);
 
@@ -41,17 +41,17 @@ public partial class CombatantGroup : Node2D
 
         foreach (Node2D node in GetChildren())
         {
-            Combatants.Add((TestCombatant)node);
+            Combatants.Add((Combatant)node);
         }
     }
 
     public void _SwitchFocus(int a, int b)
     {
-        ((TestCombatant)Combatants[a])._Focus();
-        ((TestCombatant)Combatants[b])._Unfocus();
+        ((Combatant)Combatants[a])._Focus();
+        ((Combatant)Combatants[b])._Unfocus();
     }
 
-    public void _SwapChild(TestCombatant current, TestCombatant replacement)
+    public void _SwapChild(Combatant current, Combatant replacement)
     {
         int IDX = Combatants.IndexOf(current);
 

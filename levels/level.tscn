@@ -1,13 +1,13 @@
 [gd_scene load_steps=16 format=3 uid="uid://bm2egshb5gs1h"]
 
-[ext_resource type="Script" path="res://scripts/LevelManager.cs" id="1_4x0av"]
+[ext_resource type="Script" path="res://scripts/OverworldScripts/LevelManager.cs" id="1_4x0av"]
 [ext_resource type="Texture2D" uid="uid://crlgfvcp6ux3l" path="res://assets/example_tileset.png" id="1_sd7qr"]
 [ext_resource type="PackedScene" uid="uid://8lbvow7kvv8o" path="res://scenes/world_character.tscn" id="2_b82tv"]
-[ext_resource type="Script" path="res://scripts/world_party_follower.cs" id="3_58w70"]
-[ext_resource type="Script" path="res://scripts/world_party_head.cs" id="4_ef61d"]
+[ext_resource type="Script" path="res://scripts/OverworldScripts/world_party_follower.cs" id="3_58w70"]
+[ext_resource type="Script" path="res://scripts/OverworldScripts/world_party_head.cs" id="4_ef61d"]
 [ext_resource type="Texture2D" uid="uid://bw4ynbdoebqyo" path="res://assets/DialogueTestBox.png" id="5_8ti2o"]
 [ext_resource type="Texture2D" uid="uid://bq7vp4ls3df45" path="res://assets/test_character.png" id="6_eeqmo"]
-[ext_resource type="Script" path="res://scripts/NPCScript.cs" id="7_qx5lk"]
+[ext_resource type="Script" path="res://scripts/OverworldScripts/NPCScript.cs" id="7_qx5lk"]
 [ext_resource type="JSON" path="res://json/test_behavior.json" id="8_drril"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yj5ll"]
@@ -506,17 +506,17 @@ partyHead = NodePath("../../PartyHead")
 position = Vector2(33, 1)
 scale = Vector2(3, 3)
 script = ExtResource("3_58w70")
+partyIndex = 1
 partyHead = NodePath("../../PartyHead")
 partyNode = NodePath("..")
-partyIndex = 1
 
 [node name="WorldCharacter3" parent="Sortables/Party" node_paths=PackedStringArray("partyHead", "partyNode") instance=ExtResource("2_b82tv")]
 position = Vector2(33, 1)
 scale = Vector2(3, 3)
 script = ExtResource("3_58w70")
+partyIndex = 2
 partyHead = NodePath("../../PartyHead")
 partyNode = NodePath("..")
-partyIndex = 2
 
 [node name="PartyHead" type="CharacterBody2D" parent="Sortables"]
 position = Vector2(-31, 25)
@@ -589,9 +589,9 @@ scale = Vector2(3, 3)
 texture = ExtResource("6_eeqmo")
 centered = false
 script = ExtResource("7_qx5lk")
+Behavior = ExtResource("8_drril")
 InteractionArea = NodePath("Area2D")
 PartyHead = NodePath("../../PartyHead")
-Behavior = ExtResource("8_drril")
 UI = NodePath("../../PartyHead/Camera2D/UserInterface")
 
 [node name="Area2D" type="Area2D" parent="Sortables/NPCs/TestNPC"]
@@ -599,6 +599,3 @@ UI = NodePath("../../PartyHead/Camera2D/UserInterface")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sortables/NPCs/TestNPC/Area2D"]
 position = Vector2(8, 29)
 shape = SubResource("CircleShape2D_ytwg1")
-
-[connection signal="PartyMoving" from="Sortables/PartyHead" to="Sortables/Party/WorldCharacter" method="_on_party_head_party_moving"]
-[connection signal="PartyMoving" from="Sortables/PartyHead" to="Sortables/Party/WorldCharacter2" method="_on_party_head_party_moving"]

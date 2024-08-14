@@ -1,16 +1,16 @@
 [gd_scene load_steps=6 format=3 uid="uid://cnu7xskrya126"]
 
 [ext_resource type="Texture2D" uid="uid://cpkspi2adekb" path="res://assets/battleBackground.png" id="1_8xdau"]
-[ext_resource type="Script" path="res://scripts/TestBattleScene.cs" id="1_ean5r"]
 [ext_resource type="PackedScene" uid="uid://djyqf1xfsgwao" path="res://scenes/test_enemy_group.tscn" id="1_g84ol"]
+[ext_resource type="Script" path="res://scripts/BattleScripts/BattleScene.cs" id="1_lka35"]
 [ext_resource type="PackedScene" uid="uid://d0cf2d1jlypok" path="res://scenes/test_player_group.tscn" id="3_cnei4"]
 [ext_resource type="PackedScene" uid="uid://cvj36tnwmrcvi" path="res://scenes/test_partner_group.tscn" id="5_punxp"]
 
-[node name="test_battle_scene" type="Node2D" node_paths=PackedStringArray("EnemyGroup", "PartyGroup", "PartnerGroup", "ChoiceBox", "ActionBox", "BattleActionView")]
-script = ExtResource("1_ean5r")
-EnemyGroup = NodePath("test_enemy_group")
-PartyGroup = NodePath("test_player_group")
-PartnerGroup = NodePath("test_partner_group")
+[node name="test_battle_scene" type="Node2D" node_paths=PackedStringArray("_EnemyGroup", "Vanguard", "RearGuard", "ChoiceBox", "ActionBox", "BattleActionView")]
+script = ExtResource("1_lka35")
+_EnemyGroup = NodePath("test_enemy_group")
+Vanguard = NodePath("test_player_group")
+RearGuard = NodePath("test_partner_group")
 ChoiceBox = NodePath("UI/Choice")
 ActionBox = NodePath("UI/BattleActionNode/VBoxContainer")
 BattleActionView = NodePath("UI/BattleActionNode")
@@ -21,9 +21,8 @@ offset_right = 1152.0
 offset_bottom = 648.0
 texture = ExtResource("1_8xdau")
 
-[node name="test_enemy_group" parent="." node_paths=PackedStringArray("ChoiceBox") instance=ExtResource("1_g84ol")]
+[node name="test_enemy_group" parent="." instance=ExtResource("1_g84ol")]
 position = Vector2(980, 0)
-ChoiceBox = NodePath("../UI/Choice")
 
 [node name="test_player_group" parent="." instance=ExtResource("3_cnei4")]
 position = Vector2(132, 0)

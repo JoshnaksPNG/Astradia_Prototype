@@ -53,8 +53,8 @@ public partial class SwapAction : BattleAction
 
     private async void _MovePositions()
     {
-        TestCombatant vanguard = Source;
-        TestCombatant rearguard = Source.SwapPartner;
+        Combatant vanguard = Source;
+        Combatant rearguard = Source.SwapPartner;
 
         vanguard._PlayAnimation("swap_out");
         await ToSignal(vanguard.GetTree().CreateTimer(0.6d), SceneTreeTimer.SignalName.Timeout);
@@ -69,15 +69,15 @@ public partial class SwapAction : BattleAction
         vParent.AddChild(rearguard);
         rParent.AddChild(vanguard);
 
-        ((TestPlayerGroup)vParent)._SwapChild(vanguard, rearguard);
-        ((TestPartnerGroup)rParent)._SwapChild(rearguard, vanguard);
+        ((CombatantGroup)vParent)._SwapChild(vanguard, rearguard);
+        ((CombatantGroup)rParent)._SwapChild(rearguard, vanguard);
 
         rearguard._PlayAnimation("swap_in");
         await ToSignal(vanguard.GetTree().CreateTimer(0.6d), SceneTreeTimer.SignalName.Timeout);
         rearguard._PlayAnimation("RESET");
     }
 
-    public TestCombatant _GetSource()
+    public Combatant _GetSource()
     {
         return Source;
     }

@@ -12,6 +12,8 @@ public partial class Combatant : CharacterBody2D
     public CombatantStats Stats;
 
     public List<BattleEffect> Effects;
+
+    public List<MagicWeakness> MagicWeaknesses;
     
     public Combatant SwapPartner;
     public bool HasPartner;
@@ -43,6 +45,10 @@ public partial class Combatant : CharacterBody2D
     public override void _Ready()
     {
         Agro = 0;
+
+        _SetChildrenNodes();
+
+        Moveset = new();
 
         HasPartner = false;
 
@@ -100,9 +106,7 @@ public partial class Combatant : CharacterBody2D
     {
         Combatant c = GD.Load<PackedScene>(scenePath).Instantiate<Combatant>();
 
-        c.FocusSprite = c.GetNode<Sprite2D>("Focus");
-        c.HealthBar = c.GetNode<ProgressBar>("HealthBar");
-        c.Animator = c.GetNode<AnimationPlayer>("AnimationPlayer");
+        c._SetChildrenNodes();
 
         c._LoadMoveset(moveset);
         c._LoadStats(stats);
@@ -110,6 +114,13 @@ public partial class Combatant : CharacterBody2D
         parent.AddChild(c);
 
         return c;
+    }
+
+    public void _SetChildrenNodes()
+    {
+        FocusSprite = GetNode<Sprite2D>("Focus");
+        HealthBar = GetNode<ProgressBar>("HealthBar");
+        Animator = GetNode<AnimationPlayer>("AnimationPlayer");
     }
 
     /** 
@@ -142,6 +153,30 @@ public partial class Combatant : CharacterBody2D
     public void _TakeDamage(int dmg)
     {
         CurrentHealth -= dmg;
+    }
+
+    /** 
+        <summary>
+        Public method to damage Combatant.
+        </summary>
+
+        <param name="dmg"> Amount of health to damage the combatant by. </param>
+    **/
+    public void _TakeMagicDamage(int dmg, List<Magictype> magictypes)
+    {
+        float appliedDamage = dmg;
+
+        foreach(var weakness in MagicWeaknesses) 
+        {
+            if (magictypes.Contains(weakness.Type))
+            {
+                appliedDamage *= weakness.DamageMultiplier;
+
+                weakness._OnExploited(this);
+            }
+        }
+
+        CurrentHealth -= (int)appliedDamage;
     }
 
     /** 

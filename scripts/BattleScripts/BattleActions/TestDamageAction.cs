@@ -15,7 +15,7 @@ public partial class TestDamageAction : BattleAction
         Duration = 1d;
     }
 
-    private TestDamageAction(TestCombatant source, Array<TestCombatant> targets) : base(source, targets)
+    private TestDamageAction(Combatant source, Array<Combatant> targets) : base(source, targets)
     {
         Name = "Test Damage Action";
         ID = "battle_action.test_damage";

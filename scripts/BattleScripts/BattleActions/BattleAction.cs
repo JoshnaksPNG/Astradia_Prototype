@@ -6,9 +6,9 @@ using System.Collections.Generic;
 [GlobalClass]
 public abstract partial class BattleAction : Resource
 {
-    protected TestCombatant Source;
+    protected Combatant Source;
 
-    protected Array<TestCombatant> Targets;
+    protected Array<Combatant> Targets;
     public int targetNum;
 
     public string Name;
@@ -28,7 +28,7 @@ public abstract partial class BattleAction : Resource
         MagicTypes = new List<Magictype>();
     }
 
-    public BattleAction(TestCombatant source, Array<TestCombatant> targets)
+    public BattleAction(Combatant source, Array<Combatant> targets)
     {
         this.Source = source;
 
@@ -42,7 +42,7 @@ public abstract partial class BattleAction : Resource
         MagicTypes = new List<Magictype>();
     }
 
-    public void _SetTargeting(Array<TestCombatant> targs)
+    public void _SetTargeting(Array<Combatant> targs)
     {
         Targets = new();
 
@@ -52,19 +52,19 @@ public abstract partial class BattleAction : Resource
         }
     }
 
-    public void _AddTarget(TestCombatant t)
+    public void _AddTarget(Combatant t)
     {
         Targets.Add(t);
     }
 
-    public void _SetSource(TestCombatant s)
+    public void _SetSource(Combatant s)
     {
         Source = s;
     }
 
     public abstract void _ExecuteAction();
 
-    public void _ExecuteOnTargets(TestCombatant source, Array<TestCombatant> targs)
+    public void _ExecuteOnTargets(Combatant source, Array<Combatant> targs)
     {
         _SetSource(source);
 

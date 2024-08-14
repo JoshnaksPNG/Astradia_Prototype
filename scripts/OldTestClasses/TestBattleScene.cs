@@ -40,15 +40,15 @@ public partial class TestBattleScene : Node2D
 
     BattleState CurrentState = BattleState.ChooseSource;
 
-    TestCombatant SelectedSource;
-    Array<TestCombatant> SelectedTargets;
+    Combatant SelectedSource;
+    Array<Combatant> SelectedTargets;
     BattleAction SelectedAction;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        ActionQueue = new List<ActionContext>();
-        SelectedTargets = new Array<TestCombatant> ();
+        ActionQueue = new();
+        SelectedTargets = new();
 
         PartySelectionIndex = 0;
         ((TestCombatant)PartyGroup.PartyMembers[PartySelectionIndex])._Focus();
@@ -138,7 +138,7 @@ public partial class TestBattleScene : Node2D
 
         if (Input.IsActionJustPressed("ui_interact"))
         {
-            SelectedSource = (TestCombatant)PartyGroup.PartyMembers[PartySelectionIndex];
+            SelectedSource = (Combatant)PartyGroup.PartyMembers[PartySelectionIndex];
             ((TestCombatant)PartyGroup.PartyMembers[PartySelectionIndex])._Unfocus();
             PartySelectionIndex = 0;
 
@@ -204,7 +204,7 @@ public partial class TestBattleScene : Node2D
 
         if (Input.IsActionJustPressed("ui_interact"))
         {
-            SelectedTargets.Add((TestCombatant)EnemyGroup.enemies[EnemySelectionIndex]);
+            SelectedTargets.Add((Combatant)EnemyGroup.enemies[EnemySelectionIndex]);
 
             if (SelectedAction.targetNum == SelectedTargets.Count)
             {
