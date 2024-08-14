@@ -42,6 +42,13 @@ public abstract partial class BattleAction : Resource
         MagicTypes = new List<Magictype>();
     }
 
+    /** 
+        <summary>
+        Set BattleAction targets. 
+        </summary>
+
+        <param name="targs"> Godot Array of targeted Combatants. </param>
+    **/
     public void _SetTargeting(Array<Combatant> targs)
     {
         Targets = new();
@@ -52,18 +59,45 @@ public abstract partial class BattleAction : Resource
         }
     }
 
-    public void _AddTarget(Combatant t)
+    /** 
+        <summary>
+        Add Combatant to BattleAction targets. 
+        </summary>
+
+        <param name="target"> Combatant to be added to target array. </param>
+    **/
+    public void _AddTarget(Combatant target)
     {
-        Targets.Add(t);
+        Targets.Add(target);
     }
 
-    public void _SetSource(Combatant s)
+    /** 
+        <summary>
+        Set Combatant as BattleAction source. 
+        </summary>
+
+        <param name="source"> Combatant to be set as action source. </param>
+    **/
+    public void _SetSource(Combatant source)
     {
-        Source = s;
+        Source = source;
     }
 
+    /** 
+        <summary>
+        Execute the given action on all targets. 
+        </summary>
+    **/
     public abstract void _ExecuteAction();
 
+    /** 
+        <summary>
+        Set Action source and targets, followed by executing the action. 
+        </summary>
+
+        <param name="source"> Combatant to be set as action source. </param>
+        <param name="targs"> Godot Array of targeted Combatants. </param>
+    **/
     public void _ExecuteOnTargets(Combatant source, Array<Combatant> targs)
     {
         _SetSource(source);

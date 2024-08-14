@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 public partial class Combatant : CharacterBody2D
 {
@@ -16,9 +17,9 @@ public partial class Combatant : CharacterBody2D
     public List<MagicWeakness> MagicWeaknesses;
     
     public Combatant SwapPartner;
-    public bool HasPartner;
+    public bool HasPartner = false;
 
-    public int Agro;
+    public int Agro = 0;
 
     public int current_health;
     public int CurrentHealth
@@ -44,15 +45,22 @@ public partial class Combatant : CharacterBody2D
 
     public override void _Ready()
     {
-        Agro = 0;
-
         _SetChildrenNodes();
 
-        Moveset = new();
+        if (Moveset == null)
+        {
+            Moveset = new();
+        }
 
-        HasPartner = false;
-
-        Effects = new();
+        if (Effects == null) 
+        {
+            Effects = new();
+        }
+        
+        if (MagicWeaknesses == null) 
+        {
+            MagicWeaknesses = new();
+        }
     }
 
     /** 
@@ -83,7 +91,17 @@ public partial class Combatant : CharacterBody2D
     {
         try
         {
-            Moveset = MovesetParser.ParseAndFetchActions(movesetJSON);
+            if (Moveset == null)
+            {
+                Moveset = new();
+            }
+
+            //Moveset = MovesetParser.ParseAndFetchActions(movesetJSON);
+            List<BattleAction> fetched_actions = MovesetParser.ParseAndFetchActions(movesetJSON);
+            foreach (var move in fetched_actions) 
+            {
+                Moveset.Add(move);
+            }
         }
         catch (Exception e)
         {
@@ -94,13 +112,14 @@ public partial class Combatant : CharacterBody2D
     /** 
         <summary>
         Method to simply initialize a Combatant. 
-        Returns Combatant in case caller wants to perform more functions on it.
         </summary>
 
         <param name="parent"> Node to add the combatant as a child to. </param>
         <param name="stats"> Stats to load to the combatant. </param>
         <param name="moveset"> Moveset to load to the combatant. </param>
         <param name="scenePath"> Resource path to the Scene resource of combatant. </param>
+
+        <returns>Initiated Combatant</returns>
     **/
     public static Combatant _InitCombatant(Node parent, CombatantStats stats, Json moveset, string scenePath)
     {
@@ -111,16 +130,11 @@ public partial class Combatant : CharacterBody2D
         c._LoadMoveset(moveset);
         c._LoadStats(stats);
 
+        c.MagicWeaknesses = new();
+
         parent.AddChild(c);
 
         return c;
-    }
-
-    public void _SetChildrenNodes()
-    {
-        FocusSprite = GetNode<Sprite2D>("Focus");
-        HealthBar = GetNode<ProgressBar>("HealthBar");
-        Animator = GetNode<AnimationPlayer>("AnimationPlayer");
     }
 
     /** 
@@ -218,5 +232,12 @@ public partial class Combatant : CharacterBody2D
     private void _PlayHurtAnimation()
     {
         Animator.Play("hurt");
+    }
+
+    private void _SetChildrenNodes()
+    {
+        FocusSprite = GetNode<Sprite2D>("Focus");
+        HealthBar = GetNode<ProgressBar>("HealthBar");
+        Animator = GetNode<AnimationPlayer>("AnimationPlayer");
     }
 }

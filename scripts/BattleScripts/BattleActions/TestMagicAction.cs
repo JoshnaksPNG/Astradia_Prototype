@@ -19,14 +19,9 @@ public partial class TestMagicAction : BattleAction
 
     public override void _ExecuteAction()
     {
-        foreach (var magType in MagicTypes)
-        {
-            Debug.WriteLine(magType);
-        }
-        
         foreach (var target in Targets)
         {
-            target._TakeDamage(5);
+            target._TakeMagicDamage(5, MagicTypes);
         }
     }
 }

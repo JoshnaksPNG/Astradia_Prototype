@@ -6,11 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://d0cf2d1jlypok" path="res://scenes/test_player_group.tscn" id="3_cnei4"]
 [ext_resource type="PackedScene" uid="uid://cvj36tnwmrcvi" path="res://scenes/test_partner_group.tscn" id="5_punxp"]
 
-[node name="test_battle_scene" type="Node2D" node_paths=PackedStringArray("_EnemyGroup", "Vanguard", "RearGuard", "ChoiceBox", "ActionBox", "BattleActionView")]
+[node name="test_battle_scene" type="Node2D" node_paths=PackedStringArray("ChoiceBox", "ActionBox", "BattleActionView")]
 script = ExtResource("1_lka35")
-_EnemyGroup = NodePath("test_enemy_group")
-Vanguard = NodePath("test_player_group")
-RearGuard = NodePath("test_partner_group")
 ChoiceBox = NodePath("UI/Choice")
 ActionBox = NodePath("UI/BattleActionNode/VBoxContainer")
 BattleActionView = NodePath("UI/BattleActionNode")

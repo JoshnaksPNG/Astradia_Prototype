@@ -31,7 +31,7 @@ public partial class CombatantGroup : Node2D
     {
         for (int i = 0; i < Combatants.Count; i++)
         {
-            ((Node2D)Combatants[i]).Position = new Vector2(0, i * CombatantOffset + OffsetFromTop);
+            Combatants[i].Position = new Vector2(0, i * CombatantOffset + OffsetFromTop);
         }
     }
 
@@ -47,8 +47,8 @@ public partial class CombatantGroup : Node2D
 
     public void _SwitchFocus(int a, int b)
     {
-        ((Combatant)Combatants[a])._Focus();
-        ((Combatant)Combatants[b])._Unfocus();
+        Combatants[a]._Focus();
+        Combatants[b]._Unfocus();
     }
 
     public void _SwapChild(Combatant current, Combatant replacement)

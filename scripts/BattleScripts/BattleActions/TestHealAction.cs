@@ -18,6 +18,7 @@ public partial class TestHealAction : BattleAction
         foreach(var target in Targets) 
         {
             target._Heal(10);
+            target._PlayAnimation("heal");
         }
     }
 }

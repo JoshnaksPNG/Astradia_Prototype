@@ -18,7 +18,6 @@ public partial class TestMultiTargetAction : BattleAction
     {
         foreach (var target in Targets)
         {
-            Debug.WriteLine(target.Name);
             target._TakeDamage(10);
         }
     }
