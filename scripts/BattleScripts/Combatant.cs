@@ -19,7 +19,9 @@ public partial class Combatant : CharacterBody2D
     public Combatant SwapPartner;
     public bool HasPartner = false;
 
-    public int Agro = 0;
+    public BattleAction SwitchAction;
+
+    public List<Combatant> AllOpponents; 
 
     public int current_health;
     public int CurrentHealth
@@ -60,6 +62,11 @@ public partial class Combatant : CharacterBody2D
         if (MagicWeaknesses == null) 
         {
             MagicWeaknesses = new();
+        }
+
+        if (AllOpponents == null) 
+        {
+            AllOpponents = new();
         }
     }
 
@@ -222,19 +229,56 @@ public partial class Combatant : CharacterBody2D
         Animator.Play(animationName);
     }
 
-    // Private Methods
+    /** 
+        <summary>
+        Initiate the Opponent List for Combatant.
+        </summary>
 
-    private void _UpdateHeathBar()
+        <param name="oppVanguard"> Node containing the Opposing Vanguard. </param>
+        <param name="oppRearguard"> Node containing the Opposing Rearguard. </param>
+    **/
+    public void _InitOpponents(Node2D oppVanguard, Node2D oppRearguard)
+    {
+        if (AllOpponents == null)
+        {
+            AllOpponents = new();
+        }
+
+        foreach (var child in oppVanguard.GetChildren())
+        {
+            AllOpponents.Add((Combatant)child);
+        }
+
+        foreach (var child in oppRearguard.GetChildren())
+        {
+            AllOpponents.Add((Combatant)child);
+        }
+    }
+
+    /** 
+        <summary>
+        Add Opponent to Combatant Opponent List
+        </summary>
+
+        <param name="opp"> Combatant to add as opponent </param>
+    **/
+    public void _AddOpponent(Combatant opp) 
+    {
+        AllOpponents.Add(opp);
+    }
+
+    // Protected Methods
+    protected void _UpdateHeathBar()
     {
         HealthBar.Value = CurrentHealth;
     }
 
-    private void _PlayHurtAnimation()
+    protected void _PlayHurtAnimation()
     {
         Animator.Play("hurt");
     }
 
-    private void _SetChildrenNodes()
+    protected void _SetChildrenNodes()
     {
         FocusSprite = GetNode<Sprite2D>("Focus");
         HealthBar = GetNode<ProgressBar>("HealthBar");

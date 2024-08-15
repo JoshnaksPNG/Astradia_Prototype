@@ -14,8 +14,9 @@ public partial class TestStatsAction : BattleAction
         Duration = 1d;
     }
 
-    public override void _ExecuteAction()
+    public override async void _ExecuteAction()
     {
+        Source._PlayAnimation("attack");
         foreach (var target in Targets)
         {
             float hitChance = ((float)Source.Stats.Accuracy / 1000);
@@ -26,6 +27,9 @@ public partial class TestStatsAction : BattleAction
                 target._TakeDamage(3 * (target.Stats.Accuracy / 100));
             }
         }
+
+        await ToSignal(Source.GetTree().CreateTimer(0.6d), SceneTreeTimer.SignalName.Timeout);
+        Source._PlayAnimation("RESET");
     }
 
     public bool _ActionHits(float hitChance)

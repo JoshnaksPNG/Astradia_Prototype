@@ -8,14 +8,16 @@
 [ext_resource type="JSON" path="res://json/CombatMovesets/test_moveset3.json" id="4_aienq"]
 [ext_resource type="JSON" path="res://json/CombatMovesets/test_moveset4.json" id="5_4dxb8"]
 
-[node name="test_loaded_battle_scene" type="Node2D" node_paths=PackedStringArray("PartyVanguard", "PartyRearGuard", "EnemyVanguard", "EnemyRearguard", "ChoiceBox", "ActionBox", "BattleActionView")]
+[node name="test_loaded_battle_scene" type="Node2D" node_paths=PackedStringArray("PartyVanguard", "PartyRearguard", "AllyVanguard", "AllyRearguard", "EnemyVanguard", "EnemyRearguard", "ChoiceBox", "ActionBox", "BattleActionView")]
 script = ExtResource("1_fwa17")
 partyVanguardCount = 3
 partyRearguardCount = 1
 enemyVanguardCount = 4
 Movesets = Array[JSON]([ExtResource("2_xuqv1"), ExtResource("3_imi1d"), ExtResource("4_aienq"), ExtResource("5_4dxb8")])
 PartyVanguard = NodePath("party_vanguard")
-PartyRearGuard = NodePath("party_rearguard")
+PartyRearguard = NodePath("party_rearguard")
+AllyVanguard = NodePath("ally_vanguard")
+AllyRearguard = NodePath("ally_rearguard")
 EnemyVanguard = NodePath("enemy_vanguard")
 EnemyRearguard = NodePath("enemy_rearguard")
 ChoiceBox = NodePath("UI/Choice")
@@ -44,6 +46,14 @@ script = ExtResource("3_7188s")
 
 [node name="party_rearguard" type="Node2D" parent="."]
 position = Vector2(-94.715, 0)
+script = ExtResource("3_7188s")
+
+[node name="ally_vanguard" type="Node2D" parent="."]
+position = Vector2(132, 480)
+script = ExtResource("3_7188s")
+
+[node name="ally_rearguard" type="Node2D" parent="."]
+position = Vector2(-94.715, 480)
 script = ExtResource("3_7188s")
 
 [node name="UI" type="CanvasLayer" parent="."]

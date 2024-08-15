@@ -26,7 +26,7 @@ public partial class TestAutoLoadBattleScene : BattleScene
 
         Random r = new Random();
 
-        // Party Stuff
+        // Party Init
         for(int i = 0; i < partyVanguardCount; ++i) 
         {
             int rand = r.Next(Movesets.Count);
@@ -38,22 +38,46 @@ public partial class TestAutoLoadBattleScene : BattleScene
         {
             int rand = r.Next(Movesets.Count);
 
-            Combatant._InitCombatant(PartyRearGuard, new CombatantStats(500, 500, 500, 100), Movesets[rand], "res://scenes/test_combatant.tscn");
+            Combatant._InitCombatant(PartyRearguard, new CombatantStats(500, 500, 500, 100), Movesets[rand], "res://scenes/test_combatant.tscn");
         }
 
-        // Enemy Stuff
+        // Enemy Init
         for (int i = 0; i < enemyVanguardCount; ++i)
         {
             int rand = r.Next(Movesets.Count);
 
-            Combatant._InitCombatant(EnemyVanguard, new CombatantStats(500, 500, 500, 100), Movesets[rand], "res://scenes/test_combatant.tscn");
+            AiCombatant._InitCombatant(EnemyVanguard, new CombatantStats(500, 500, 500, 100), Movesets[rand], "res://scenes/test_ai_combatant.tscn");
         }
 
         for (int i = 0; i < enemyRearguardCount && i < enemyVanguardCount; ++i)
         {
             int rand = r.Next(Movesets.Count);
 
-            Combatant._InitCombatant(EnemyRearguard, new CombatantStats(500, 500, 500, 100), Movesets[rand], "res://scenes/test_combatant.tscn");
+            AiCombatant._InitCombatant(EnemyRearguard, new CombatantStats(500, 500, 500, 100), Movesets[rand], "res://scenes/test_ai_combatant.tscn");
+        }
+
+        // Party Opps
+        foreach (var comb in PartyVanguard.GetChildren())
+        {
+            ((Combatant)comb)._InitOpponents(EnemyVanguard, EnemyRearguard); Debug.WriteLine(((Combatant)comb).AllOpponents.Count);
+        }
+
+        foreach (var comb in PartyRearguard.GetChildren())
+        {
+            ((Combatant)comb)._InitOpponents(EnemyVanguard, EnemyRearguard);
+        }
+
+        // Enemy Opps
+        foreach (var comb in EnemyVanguard.GetChildren())
+        {
+            ((Combatant)comb)._InitOpponents(PartyVanguard, PartyRearguard);
+            ((AiCombatant)comb)._InitAggroTable(PartyVanguard, AllyVanguard);
+        }
+
+        foreach (var comb in EnemyRearguard.GetChildren())
+        {
+            ((Combatant)comb)._InitOpponents(PartyVanguard, PartyRearguard);
+            ((AiCombatant)comb)._InitAggroTable(PartyVanguard, AllyVanguard);
         }
 
         _UpdateChildrenPartners();
@@ -61,8 +85,8 @@ public partial class TestAutoLoadBattleScene : BattleScene
         PartyVanguard._GetCombatantsFromChildren();
         PartyVanguard._PositionCombatants();
 
-        PartyRearGuard._GetCombatantsFromChildren();
-        PartyRearGuard._PositionCombatants();
+        PartyRearguard._GetCombatantsFromChildren();
+        PartyRearguard._PositionCombatants();
 
         EnemyVanguard._GetCombatantsFromChildren();
         EnemyVanguard._PositionCombatants();

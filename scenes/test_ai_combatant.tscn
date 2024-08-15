@@ -1,11 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://7o8kyide8a7o"]
+[gd_scene load_steps=14 format=3 uid="uid://4cnskqf3qhbr"]
 
-[ext_resource type="Script" path="res://scripts/BattleScripts/Combatant.cs" id="1_3plg3"]
-[ext_resource type="Texture2D" uid="uid://64qdb3xhsgtq" path="res://assets/character_battle.png" id="1_jpcqi"]
-[ext_resource type="Texture2D" uid="uid://oivab3khx8m6" path="res://assets/character_attack_2.png" id="2_oo4vo"]
-[ext_resource type="Texture2D" uid="uid://c2276wjip1pcj" path="res://assets/focus_indicator.png" id="2_yqe7t"]
-[ext_resource type="Texture2D" uid="uid://chky47a4wrssa" path="res://assets/character_attack_0.png" id="4_hphk4"]
-[ext_resource type="Texture2D" uid="uid://brbj17mf0app2" path="res://assets/character_attack_1.png" id="5_lqigx"]
+[ext_resource type="Script" path="res://scripts/BattleScripts/AiCombatant.cs" id="1_sl3kx"]
+[ext_resource type="Texture2D" uid="uid://64qdb3xhsgtq" path="res://assets/character_battle.png" id="2_bbt13"]
+[ext_resource type="Texture2D" uid="uid://c2276wjip1pcj" path="res://assets/focus_indicator.png" id="3_h8esb"]
+[ext_resource type="Texture2D" uid="uid://chky47a4wrssa" path="res://assets/character_attack_0.png" id="4_u14gq"]
+[ext_resource type="Texture2D" uid="uid://brbj17mf0app2" path="res://assets/character_attack_1.png" id="5_nokoo"]
+[ext_resource type="Texture2D" uid="uid://oivab3khx8m6" path="res://assets/character_attack_2.png" id="6_txi7j"]
 
 [sub_resource type="Animation" id="Animation_f5xc1"]
 length = 0.001
@@ -24,26 +24,66 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:position")
+tracks/1/path = NodePath("Sprite2D:texture")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 0)]
+"update": 1,
+"values": [ExtResource("2_bbt13")]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite2D:texture")
+tracks/2/path = NodePath("Sprite2D:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_kuun2"]
+resource_name = "attack"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/path = NodePath("Sprite2D:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(0.615686, 0.945098, 0.847059, 1), Color(1, 1, 1, 1), Color(0.615686, 0.945098, 0.847059, 1), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0001, 0.3, 0.3001, 0.4, 0.4001),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [ExtResource("1_jpcqi")]
+"values": [ExtResource("4_u14gq"), ExtResource("4_u14gq"), ExtResource("4_u14gq"), ExtResource("5_nokoo"), ExtResource("5_nokoo"), ExtResource("6_txi7j")]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, -30), Vector2(5, -30), Vector2(-10, -30), Vector2(-10, 0), Vector2(0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_2gbsa"]
@@ -110,50 +150,10 @@ tracks/0/keys = {
 "values": [Color(1, 1, 1, 1), Color(0, 1, 1, 1), Color(0, 1, 1, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_riknc"]
-resource_name = "attack"
-length = 0.6
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = false
-tracks/0/path = NodePath("Sprite2D:self_modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Color(0.615686, 0.945098, 0.847059, 1), Color(1, 1, 1, 1), Color(0.615686, 0.945098, 0.847059, 1), Color(1, 1, 1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:texture")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.0001, 0.3, 0.3001, 0.4, 0.4001),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [ExtResource("4_hphk4"), ExtResource("4_hphk4"), ExtResource("4_hphk4"), ExtResource("5_lqigx"), ExtResource("5_lqigx"), ExtResource("2_oo4vo")]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite2D:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.3, 0.4, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(0, -30), Vector2(-5, -30), Vector2(10, -30), Vector2(10, 0), Vector2(0, 0)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ov0nj"]
 _data = {
 "RESET": SubResource("Animation_f5xc1"),
-"attack": SubResource("Animation_riknc"),
+"attack": SubResource("Animation_kuun2"),
 "heal": SubResource("Animation_2gbsa"),
 "hurt": SubResource("Animation_gi2bm"),
 "swap_in": SubResource("Animation_b22ev"),
@@ -161,20 +161,19 @@ _data = {
 }
 
 [node name="TestCombatant" type="CharacterBody2D"]
-script = ExtResource("1_3plg3")
+script = ExtResource("1_sl3kx")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
 scale = Vector2(3, 3)
-texture = ExtResource("1_jpcqi")
-flip_h = true
+texture = ExtResource("2_bbt13")
 
 [node name="Focus" type="Sprite2D" parent="."]
 visible = false
 texture_filter = 1
 position = Vector2(-70, 0)
 scale = Vector2(3, 3)
-texture = ExtResource("2_yqe7t")
+texture = ExtResource("3_h8esb")
 
 [node name="HealthBar" type="ProgressBar" parent="."]
 offset_left = -82.0

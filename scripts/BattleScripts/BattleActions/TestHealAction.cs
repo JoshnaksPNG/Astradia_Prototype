@@ -13,12 +13,15 @@ public partial class TestHealAction : BattleAction
         Duration = 0.5d;
     }
 
-    public override void _ExecuteAction()
+    public override async void _ExecuteAction()
     {
-        foreach(var target in Targets) 
+        Source._PlayAnimation("attack");
+        foreach (var target in Targets) 
         {
             target._Heal(10);
             target._PlayAnimation("heal");
         }
+        await ToSignal(Source.GetTree().CreateTimer(0.6d), SceneTreeTimer.SignalName.Timeout);
+        Source._PlayAnimation("RESET");
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Godot.Collections;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 public partial class BattleScene : Node2D
 {
@@ -10,7 +11,13 @@ public partial class BattleScene : Node2D
     protected CombatantGroup PartyVanguard;
 
     [Export]
-    protected CombatantGroup PartyRearGuard;
+    protected CombatantGroup PartyRearguard;
+
+    [Export]
+    protected CombatantGroup AllyVanguard;
+
+    [Export]
+    protected CombatantGroup AllyRearguard;
 
     [Export]
     protected CombatantGroup EnemyVanguard;
@@ -39,7 +46,10 @@ public partial class BattleScene : Node2D
     protected bool ShowingBattleMotions = false;
     protected bool IsPlayerTurn = false;
 
+    protected bool IsGeneratingMoves = false;
+
     protected BattleState CurrentState = BattleState.ChooseSource;
+    protected TurnType CurrentTurn = TurnType.Player;
 
     protected Combatant SelectedSource;
     protected Array<Combatant> SelectedTargets;
@@ -65,7 +75,6 @@ public partial class BattleScene : Node2D
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
-
         switch (CurrentState)
         {
             case BattleState.ChooseSource:
@@ -80,12 +89,24 @@ public partial class BattleScene : Node2D
                 _ChoosingTarget();
                 break;
 
+            case BattleState.GenerateAllyActions:
+
+                break;
+
             case BattleState.CallingQueue:
                 _CallingActionQueue();
                 break;
 
             case BattleState.BetweenTurns:
                 _BetweenTurns();
+                break;
+
+            case BattleState.GenerateEnemyActions:
+                _GenerateEnemyActions();
+                break;
+
+            case BattleState.CallEnemyActions:
+                _CallEnemyActions();
                 break;
         }
     }
@@ -141,11 +162,17 @@ public partial class BattleScene : Node2D
                 if (a.ButtonPressed)
                 {
                     SelectedAction = a.AttachedAction;
-                    CurrentState = BattleState.ChooseTarget;
-                    _CloseActions();
 
+                    _CloseActions();
                     EnemySelectionIndex = 0;
-                    EnemyVanguard.Combatants[EnemySelectionIndex]._Focus();
+
+                    if (SelectedAction.targetNum != 0)
+                    {
+                        EnemyVanguard.Combatants[EnemySelectionIndex]._Focus();
+                    }
+
+                    CurrentState = BattleState.ChooseTarget;
+
                     break;
                 }
             }
@@ -198,13 +225,24 @@ public partial class BattleScene : Node2D
                 ActionQueue.Add(currentAction);
                 SelectedTargets.Clear();
 
-                CurrentState = ActionQueue.Count >= PartyVanguard.GetChildren().Count ? BattleState.CallingQueue : BattleState.ChooseSource;
                 EnemyVanguard.Combatants[EnemySelectionIndex]._Unfocus();
 
-                if (ActionQueue.Count < PartyVanguard.GetChildren().Count)
+                if (ActionQueue.Count < PartyVanguard.Combatants.Count)
                 {
                     PartySelectionIndex = 0;
                     PartyVanguard.Combatants[PartySelectionIndex]._Focus();
+                    CurrentState = BattleState.ChooseSource;
+                }
+                else
+                {
+                    if (AllyVanguard != null && AllyVanguard.Combatants.Count > 0)
+                    {
+                        CurrentState = BattleState.GenerateAllyActions;
+                    }
+                    else
+                    {
+                        CurrentState = BattleState.CallingQueue;
+                    }
                 }
             }
         }
@@ -216,13 +254,25 @@ public partial class BattleScene : Node2D
             ActionQueue.Add(currentAction);
             SelectedTargets.Clear();
 
-            CurrentState = ActionQueue.Count >= PartyVanguard.GetChildren().Count ? BattleState.CallingQueue : BattleState.ChooseSource;
+            CurrentState = ActionQueue.Count >= PartyVanguard.Combatants.Count ? BattleState.CallingQueue : BattleState.ChooseSource;
             EnemyVanguard.Combatants[EnemySelectionIndex]._Unfocus();
 
-            if (ActionQueue.Count < PartyVanguard.GetChildren().Count)
+            if (ActionQueue.Count < PartyVanguard.Combatants.Count)
             {
                 PartySelectionIndex = 0;
                 PartyVanguard.Combatants[PartySelectionIndex]._Focus();
+                CurrentState = BattleState.ChooseSource;
+            }
+            else
+            {
+                if (AllyVanguard != null && AllyVanguard.Combatants.Count > 0)
+                {
+                    CurrentState = BattleState.GenerateAllyActions;
+                }
+                else
+                {
+                    CurrentState = BattleState.CallingQueue;
+                }
             }
         }
 
@@ -242,7 +292,7 @@ public partial class BattleScene : Node2D
     public void _BetweenTurns()
     {
         // Update Enemy Stuffs
-        foreach (var combatant in EnemyVanguard.GetChildren())
+        foreach (var combatant in EnemyVanguard.Combatants)
         {
             List<BattleEffect> removedEffects = new();
 
@@ -263,7 +313,7 @@ public partial class BattleScene : Node2D
         }
 
         // Update Party Stuffs
-        foreach (var combatant in PartyVanguard.GetChildren())
+        foreach (var combatant in PartyVanguard.Combatants)
         {
             List<BattleEffect> removedEffects = new();
 
@@ -283,7 +333,50 @@ public partial class BattleScene : Node2D
             }
         }
 
-        CurrentState = BattleState.ChooseSource;
+        if (CurrentTurn == TurnType.Player)
+        {
+            CurrentState = BattleState.GenerateEnemyActions;
+            CurrentTurn = TurnType.Enemy;
+        }
+        else
+        {
+            CurrentState = BattleState.ChooseSource;
+            CurrentTurn = TurnType.Player;
+
+            PartySelectionIndex = 0;
+            PartyVanguard.Combatants[PartySelectionIndex]._Focus();
+        }
+    }
+
+    public async Task _GenerateEnemyActions()
+    {
+        if(!IsGeneratingMoves) 
+        {
+            IsGeneratingMoves = true;
+
+            foreach (var enemy in EnemyVanguard.Combatants)
+            {
+                AiCombatant e = (AiCombatant)enemy;
+
+                ActionContext ctx = e.DecideOnAction();
+
+                ActionQueue.Add(ctx);
+            }
+
+            CurrentState = BattleState.CallEnemyActions;
+
+            IsGeneratingMoves = false;
+        }
+    }
+
+    public async Task _CallEnemyActions()
+    {
+        if (!ShowingBattleMotions)
+        {
+            await _CallActions();
+
+            CurrentState = BattleState.BetweenTurns;
+        }
     }
 
     public async Task _CallActions()
@@ -299,9 +392,6 @@ public partial class BattleScene : Node2D
         }
 
         ActionQueue.Clear();
-
-        PartySelectionIndex = 0;
-        PartyVanguard.Combatants[PartySelectionIndex]._Focus();
 
         ShowingBattleMotions = false;
         _ShowChoiceBox();
@@ -371,7 +461,8 @@ public partial class BattleScene : Node2D
     public void _UpdateChildrenPartners()
     {
         Array<Node> vanguard = PartyVanguard.GetChildren();
-        Array<Node> rearguard = PartyRearGuard.GetChildren();
+        Array<Node> rearguard = PartyRearguard.GetChildren();
+
         for (int i = 0; i < rearguard.Count; i++)
         {
             //if (i < rearguard.Count)
@@ -399,13 +490,24 @@ public partial class BattleScene : Node2D
         ChooseTarget,
         ChooseAction,
         ChooseSource,
+
+        GenerateAllyActions,
+
         CallingQueue,
+
 
         // Inter-Turn
         BetweenTurns,
 
 
         // Enemy Turn
+        GenerateEnemyActions,
+        CallEnemyActions,
+    }
 
+    public enum TurnType 
+    {
+        Player,
+        Enemy,
     }
 }

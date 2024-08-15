@@ -24,8 +24,6 @@ public class ActionContext
 
     public void _ExecuteAction()
     {
-        //Debug.WriteLine(Action.Name);
-
         Action._SetSource(Source);
         Action._SetTargeting(Targets);
 

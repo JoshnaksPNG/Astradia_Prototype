@@ -8,22 +8,6 @@ using System.Threading.Tasks;
 public partial class SwapAction : BattleAction
 {
     public static double TransitionTime = 0.6d;
-    public static double VanguardWait = 0.4d;
-    public static double TransitionSpeed = 0.3d;
-
-    public static float FrameDelay = 0.01f;
-
-    public static double SuccessMargin = 2;
-
-    double VanguardX;
-    double RearguardX;
-
-    double PriorT;
-    double AfterT;
-    double DeltaT;
-
-    public double TotalDistance;
-    public double Speed;
 
     public SwapAction() : base()
     {
@@ -31,11 +15,6 @@ public partial class SwapAction : BattleAction
         ID = "battle_action.swap.swap_partners";
         Description = "Change the combatant in the battle, keeps agro";
         targetNum = 0;
-
-        Duration = 2d;
-
-        TotalDistance = Math.Abs(VanguardX - RearguardX);
-        Speed = TotalDistance / TransitionTime;
     }
 
     public override void _ExecuteAction()
@@ -45,8 +24,13 @@ public partial class SwapAction : BattleAction
             throw new Exception("Source Combatant has no Partner!");
         }
 
-        VanguardX = Source.GlobalPosition.X;
-        RearguardX = Source.SwapPartner.GlobalPosition.X;
+        foreach(var opp in Source.AllOpponents) 
+        {
+            if(opp is AiCombatant) 
+            {
+                ((AiCombatant)opp)._SwapCombatantAggro(Source, Source.SwapPartner);
+            }
+        }
 
         _MovePositions();
     }
@@ -57,7 +41,7 @@ public partial class SwapAction : BattleAction
         Combatant rearguard = Source.SwapPartner;
 
         vanguard._PlayAnimation("swap_out");
-        await ToSignal(vanguard.GetTree().CreateTimer(0.6d), SceneTreeTimer.SignalName.Timeout);
+        await ToSignal(vanguard.GetTree().CreateTimer(TransitionTime), SceneTreeTimer.SignalName.Timeout);
         vanguard._PlayAnimation("RESET");
 
         Node vParent = vanguard.GetParent();
@@ -73,7 +57,7 @@ public partial class SwapAction : BattleAction
         ((CombatantGroup)rParent)._SwapChild(rearguard, vanguard);
 
         rearguard._PlayAnimation("swap_in");
-        await ToSignal(vanguard.GetTree().CreateTimer(0.6d), SceneTreeTimer.SignalName.Timeout);
+        await ToSignal(vanguard.GetTree().CreateTimer(TransitionTime), SceneTreeTimer.SignalName.Timeout);
         rearguard._PlayAnimation("RESET");
     }
 
@@ -81,4 +65,5 @@ public partial class SwapAction : BattleAction
     {
         return Source;
     }
+
 }

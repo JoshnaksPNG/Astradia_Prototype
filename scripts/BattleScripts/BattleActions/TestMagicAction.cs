@@ -17,11 +17,14 @@ public partial class TestMagicAction : BattleAction
         MagicTypes.Add(Magictype.Wind);
     }
 
-    public override void _ExecuteAction()
+    public override async void _ExecuteAction()
     {
+        Source._PlayAnimation("attack");
         foreach (var target in Targets)
         {
             target._TakeMagicDamage(5, MagicTypes);
         }
+        await ToSignal(Source.GetTree().CreateTimer(0.6d), SceneTreeTimer.SignalName.Timeout);
+        Source._PlayAnimation("RESET");
     }
 }

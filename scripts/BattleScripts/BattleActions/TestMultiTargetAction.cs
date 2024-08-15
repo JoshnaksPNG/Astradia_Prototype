@@ -14,11 +14,14 @@ public partial class TestMultiTargetAction : BattleAction
         Duration = 1d;
     }
 
-    public override void _ExecuteAction()
+    public override async void _ExecuteAction()
     {
+        Source._PlayAnimation("attack");
         foreach (var target in Targets)
         {
             target._TakeDamage(10);
         }
+        await ToSignal(Source.GetTree().CreateTimer(0.6d), SceneTreeTimer.SignalName.Timeout);
+        Source._PlayAnimation("RESET");
     }
 }

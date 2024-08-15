@@ -23,12 +23,15 @@ public partial class TestDamageAction : BattleAction
         targetNum = 1;
     }
 
-    public override void _ExecuteAction()
+    public override async void _ExecuteAction()
     {
-        foreach(var target in this.Targets) 
+        Source._PlayAnimation("attack");
+        foreach (var target in this.Targets) 
         {
             target._TakeDamage(10);
         }
+        await ToSignal(Source.GetTree().CreateTimer(0.6d), SceneTreeTimer.SignalName.Timeout);
+        Source._PlayAnimation("RESET");
     }
 
 }
