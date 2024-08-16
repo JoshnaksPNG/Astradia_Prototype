@@ -7,10 +7,10 @@ public partial class CombatantGroup : Node2D
     public Array<Combatant> Combatants;
 
     [Export]
-    int OffsetFromTop = 60;
+    int OffsetFromTop = 460;
 
     [Export]
-    int CombatantOffset = 160;
+    int CombatantOffset = 270;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()

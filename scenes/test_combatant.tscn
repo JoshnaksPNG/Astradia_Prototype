@@ -46,6 +46,46 @@ tracks/2/keys = {
 "values": [ExtResource("1_jpcqi")]
 }
 
+[sub_resource type="Animation" id="Animation_riknc"]
+resource_name = "attack"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/path = NodePath("Sprite2D:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(0.615686, 0.945098, 0.847059, 1), Color(1, 1, 1, 1), Color(0.615686, 0.945098, 0.847059, 1), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0001, 0.3, 0.3001, 0.4, 0.4001),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("4_hphk4"), ExtResource("4_hphk4"), ExtResource("4_hphk4"), ExtResource("5_lqigx"), ExtResource("5_lqigx"), ExtResource("2_oo4vo")]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, -30), Vector2(-5, -30), Vector2(10, -30), Vector2(10, 0), Vector2(0, 0)]
+}
+
 [sub_resource type="Animation" id="Animation_2gbsa"]
 resource_name = "heal"
 length = 0.8
@@ -110,46 +150,6 @@ tracks/0/keys = {
 "values": [Color(1, 1, 1, 1), Color(0, 1, 1, 1), Color(0, 1, 1, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_riknc"]
-resource_name = "attack"
-length = 0.6
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = false
-tracks/0/path = NodePath("Sprite2D:self_modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Color(0.615686, 0.945098, 0.847059, 1), Color(1, 1, 1, 1), Color(0.615686, 0.945098, 0.847059, 1), Color(1, 1, 1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:texture")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.0001, 0.3, 0.3001, 0.4, 0.4001),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [ExtResource("4_hphk4"), ExtResource("4_hphk4"), ExtResource("4_hphk4"), ExtResource("5_lqigx"), ExtResource("5_lqigx"), ExtResource("2_oo4vo")]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite2D:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.3, 0.4, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(0, -30), Vector2(-5, -30), Vector2(10, -30), Vector2(10, 0), Vector2(0, 0)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ov0nj"]
 _data = {
 "RESET": SubResource("Animation_f5xc1"),
@@ -165,22 +165,22 @@ script = ExtResource("1_3plg3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
-scale = Vector2(3, 3)
+scale = Vector2(6, 6)
 texture = ExtResource("1_jpcqi")
 flip_h = true
 
 [node name="Focus" type="Sprite2D" parent="."]
 visible = false
 texture_filter = 1
-position = Vector2(-70, 0)
-scale = Vector2(3, 3)
+position = Vector2(-140, 0)
+scale = Vector2(6, 6)
 texture = ExtResource("2_yqe7t")
 
 [node name="HealthBar" type="ProgressBar" parent="."]
-offset_left = -82.0
-offset_top = 52.0
-offset_right = 82.0
-offset_bottom = 79.0
+offset_left = -107.0
+offset_top = 106.0
+offset_right = 111.0
+offset_bottom = 130.0
 value = 100.0
 show_percentage = false
 

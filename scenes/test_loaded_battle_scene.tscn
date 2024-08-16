@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://d4nnuymwyu1xu"]
+[gd_scene load_steps=10 format=3 uid="uid://d4nnuymwyu1xu"]
 
 [ext_resource type="Script" path="res://scripts/BattleScripts/TestAutoLoadBattleScene.cs" id="1_fwa17"]
 [ext_resource type="JSON" path="res://json/CombatMovesets/test_moveset.json" id="2_xuqv1"]
@@ -7,12 +7,15 @@
 [ext_resource type="JSON" path="res://json/CombatMovesets/test_moveset2.json" id="3_imi1d"]
 [ext_resource type="JSON" path="res://json/CombatMovesets/test_moveset3.json" id="4_aienq"]
 [ext_resource type="JSON" path="res://json/CombatMovesets/test_moveset4.json" id="5_4dxb8"]
+[ext_resource type="PackedScene" uid="uid://7o8kyide8a7o" path="res://scenes/test_combatant.tscn" id="8_o4q7j"]
+[ext_resource type="PackedScene" uid="uid://4cnskqf3qhbr" path="res://scenes/test_ai_combatant.tscn" id="9_3a47u"]
 
 [node name="test_loaded_battle_scene" type="Node2D" node_paths=PackedStringArray("PartyVanguard", "PartyRearguard", "AllyVanguard", "AllyRearguard", "EnemyVanguard", "EnemyRearguard", "ChoiceBox", "ActionBox", "BattleActionView")]
 script = ExtResource("1_fwa17")
 partyVanguardCount = 3
 partyRearguardCount = 1
 enemyVanguardCount = 4
+enemyRearguardCount = 3
 Movesets = Array[JSON]([ExtResource("2_xuqv1"), ExtResource("3_imi1d"), ExtResource("4_aienq"), ExtResource("5_4dxb8")])
 PartyVanguard = NodePath("party_vanguard")
 PartyRearguard = NodePath("party_rearguard")
@@ -28,24 +31,24 @@ ActionButtonScenePath = "res://scenes/action_button.tscn"
 [node name="TextureRect" type="TextureRect" parent="."]
 offset_left = -107.0
 offset_top = -66.0
-offset_right = 1273.0
-offset_bottom = 714.0
+offset_right = 2690.0
+offset_bottom = 1515.0
 texture = ExtResource("2_xx1t1")
 
 [node name="enemy_vanguard" type="Node2D" parent="."]
-position = Vector2(980, 0)
+position = Vector2(2257, 0)
 script = ExtResource("3_7188s")
 
 [node name="enemy_rearguard" type="Node2D" parent="."]
-position = Vector2(1280, 0)
+position = Vector2(2853, 0)
 script = ExtResource("3_7188s")
 
 [node name="party_vanguard" type="Node2D" parent="."]
-position = Vector2(132, 0)
+position = Vector2(226, 0)
 script = ExtResource("3_7188s")
 
 [node name="party_rearguard" type="Node2D" parent="."]
-position = Vector2(-94.715, 0)
+position = Vector2(-247, 0)
 script = ExtResource("3_7188s")
 
 [node name="ally_vanguard" type="Node2D" parent="."]
@@ -59,20 +62,23 @@ script = ExtResource("3_7188s")
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="Choice" type="VBoxContainer" parent="UI"]
-offset_left = 4.0
-offset_top = 534.0
-offset_right = 150.0
-offset_bottom = 647.0
+offset_left = 2.0
+offset_top = 1179.0
+offset_right = 426.0
+offset_bottom = 1433.0
 
 [node name="Attack" type="Button" parent="UI/Choice"]
+visible = false
 layout_mode = 2
 text = "Attack"
 
 [node name="Defend" type="Button" parent="UI/Choice"]
+visible = false
 layout_mode = 2
 text = "Defend"
 
 [node name="Run" type="Button" parent="UI/Choice"]
+visible = false
 layout_mode = 2
 text = "Run"
 
@@ -86,10 +92,10 @@ offset_bottom = 357.0
 
 [node name="ActionBox" type="VBoxContainer" parent="UI/BattleActionNode"]
 layout_mode = 0
-offset_left = 19.0
-offset_top = 4.0
-offset_right = 414.0
-offset_bottom = 425.0
+offset_left = 255.0
+offset_top = 107.0
+offset_right = 1391.0
+offset_bottom = 1015.0
 
 [node name="ActionQueue" type="Control" parent="UI"]
 layout_mode = 3
@@ -98,3 +104,11 @@ offset_left = 715.0
 offset_top = 380.0
 offset_right = 755.0
 offset_bottom = 420.0
+
+[node name="TestCombatant" parent="." instance=ExtResource("8_o4q7j")]
+visible = false
+position = Vector2(889, 866)
+
+[node name="TestCombatant2" parent="." instance=ExtResource("9_3a47u")]
+visible = false
+position = Vector2(1549, 871)

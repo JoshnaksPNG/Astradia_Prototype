@@ -482,6 +482,29 @@ public partial class BattleScene : Node2D
             }
 
         }
+
+        Array<Node> enemy_vanguard = EnemyVanguard.GetChildren();
+        Array<Node> enemy_rearguard = EnemyRearguard.GetChildren();
+
+        for (int i = 0; i < enemy_rearguard.Count; i++)
+        {
+            //if (i < rearguard.Count)
+            {
+                ((Combatant)enemy_vanguard[i]).SwapPartner = ((Combatant)enemy_rearguard[i]);
+                ((Combatant)enemy_vanguard[i]).HasPartner = true;
+
+                ((Combatant)enemy_rearguard[i]).SwapPartner = ((Combatant)enemy_vanguard[i]);
+                ((Combatant)enemy_rearguard[i]).HasPartner = true;
+
+                ((Combatant)enemy_vanguard[i]).Moveset.Add(new SwapAction());
+                ((Combatant)enemy_rearguard[i]).Moveset.Add(new SwapAction());
+            }
+            //else
+            {
+                //((Combatant)vanguard[i]).HasPartner = false;
+            }
+
+        }
     }
 
     public enum BattleState

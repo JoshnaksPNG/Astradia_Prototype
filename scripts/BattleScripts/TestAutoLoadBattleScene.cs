@@ -59,7 +59,7 @@ public partial class TestAutoLoadBattleScene : BattleScene
         // Party Opps
         foreach (var comb in PartyVanguard.GetChildren())
         {
-            ((Combatant)comb)._InitOpponents(EnemyVanguard, EnemyRearguard); Debug.WriteLine(((Combatant)comb).AllOpponents.Count);
+            ((Combatant)comb)._InitOpponents(EnemyVanguard, EnemyRearguard);
         }
 
         foreach (var comb in PartyRearguard.GetChildren())
