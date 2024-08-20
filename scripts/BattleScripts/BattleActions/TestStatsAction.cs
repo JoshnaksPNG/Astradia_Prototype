@@ -19,23 +19,16 @@ public partial class TestStatsAction : BattleAction
         Source._PlayAnimation("attack");
         foreach (var target in Targets)
         {
-            float hitChance = ((float)Source.Stats.Accuracy / 1000);
+            double hitChance = BattleMath.hit_chance(Source.Stats.Accuracy, target.Stats.Evasion);
             Debug.WriteLine("hitchance:" + hitChance);
 
             if (_ActionHits(hitChance))
             {
-                target._TakeDamage(3 * (target.Stats.Accuracy / 100));
+                target._TakeDamage(3 * (target.Stats.Strength / 10));
             }
         }
 
         await ToSignal(Source.GetTree().CreateTimer(0.6d), SceneTreeTimer.SignalName.Timeout);
         Source._PlayAnimation("RESET");
-    }
-
-    public bool _ActionHits(float hitChance)
-    {
-        Random r = new();
-
-        return r.NextDouble() < (double) hitChance;
     }
 }

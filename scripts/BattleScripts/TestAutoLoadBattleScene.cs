@@ -20,6 +20,12 @@ public partial class TestAutoLoadBattleScene : BattleScene
     [Export]
     Array<Json> Movesets;
 
+    [Export]
+    Json TestStats;
+    [Export]
+    Json TestProficiencies;
+
+
     public override void _Ready()
     {
         base._Ready();
@@ -31,14 +37,14 @@ public partial class TestAutoLoadBattleScene : BattleScene
         {
             int rand = r.Next(Movesets.Count);
 
-            Combatant._InitCombatant(PartyVanguard, new CombatantStats(500, 500, 500, 100), Movesets[rand], "res://scenes/test_combatant.tscn");
+            Combatant._InitCombatant(PartyVanguard, new(TestStats, TestProficiencies), Movesets[rand], "res://scenes/test_combatant.tscn");
         }
 
         for (int i = 0; i < partyRearguardCount && i < partyVanguardCount; ++i)
         {
             int rand = r.Next(Movesets.Count);
 
-            Combatant._InitCombatant(PartyRearguard, new CombatantStats(500, 500, 500, 100), Movesets[rand], "res://scenes/test_combatant.tscn");
+            Combatant._InitCombatant(PartyRearguard, new(TestStats, TestProficiencies), Movesets[rand], "res://scenes/test_combatant.tscn");
         }
 
         // Enemy Init
@@ -46,14 +52,14 @@ public partial class TestAutoLoadBattleScene : BattleScene
         {
             int rand = r.Next(Movesets.Count);
 
-            AiCombatant._InitCombatant(EnemyVanguard, new CombatantStats(500, 500, 500, 100), Movesets[rand], "res://scenes/test_ai_combatant.tscn");
+            AiCombatant._InitCombatant(EnemyVanguard, new(TestStats, TestProficiencies), Movesets[rand], "res://scenes/test_ai_combatant.tscn");
         }
 
         for (int i = 0; i < enemyRearguardCount && i < enemyVanguardCount; ++i)
         {
             int rand = r.Next(Movesets.Count);
 
-            AiCombatant._InitCombatant(EnemyRearguard, new CombatantStats(500, 500, 500, 100), Movesets[rand], "res://scenes/test_ai_combatant.tscn");
+            AiCombatant._InitCombatant(EnemyRearguard, new(TestStats, TestProficiencies), Movesets[rand], "res://scenes/test_ai_combatant.tscn");
         }
 
         // Party Opps

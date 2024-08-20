@@ -19,7 +19,12 @@ public partial class TestMultiTargetAction : BattleAction
         Source._PlayAnimation("attack");
         foreach (var target in Targets)
         {
-            target._TakeDamage(10);
+            double hitChance = BattleMath.hit_chance(Source.Stats.Accuracy, target.Stats.Evasion);
+
+            if (_ActionHits(hitChance))
+            {
+                target._TakeDamage(10);
+            }
         }
         await ToSignal(Source.GetTree().CreateTimer(0.6d), SceneTreeTimer.SignalName.Timeout);
         Source._PlayAnimation("RESET");

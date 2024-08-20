@@ -22,7 +22,16 @@ public partial class TestMagicAction : BattleAction
         Source._PlayAnimation("attack");
         foreach (var target in Targets)
         {
-            target._TakeMagicDamage(5, MagicTypes);
+            double hitChance = BattleMath.hit_chance(Source.Stats.Accuracy, target.Stats.Evasion);
+
+            if (_ActionHits(hitChance))
+            {
+                double magic_multiplier = BattleMath.magic_multiplier(Source.Stats.MagicProficiency, MagicTypes);
+
+                Debug.WriteLine($"Magic Multiplier: {magic_multiplier}");
+
+                target._TakeMagicDamage((int)(5 * magic_multiplier), MagicTypes);
+            }
         }
         await ToSignal(Source.GetTree().CreateTimer(0.6d), SceneTreeTimer.SignalName.Timeout);
         Source._PlayAnimation("RESET");

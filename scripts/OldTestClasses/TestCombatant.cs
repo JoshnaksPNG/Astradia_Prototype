@@ -54,10 +54,10 @@ public partial class TestCombatant : CharacterBody2D
 
     public override void _Ready()
     {
-        Stats = new(500, 500, 500, 100);
+        //Stats = new(500, 500, 500, 100);
 
-        CurrentHealth = Stats.Health;
-		HealthBar.MaxValue = Stats.Health;
+        //CurrentHealth = Stats.Health;
+		//HealthBar.MaxValue = Stats.Health;
 
 		Agro = 0;
 

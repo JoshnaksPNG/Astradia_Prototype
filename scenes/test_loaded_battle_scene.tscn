@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://d4nnuymwyu1xu"]
+[gd_scene load_steps=12 format=3 uid="uid://d4nnuymwyu1xu"]
 
 [ext_resource type="Script" path="res://scripts/BattleScripts/TestAutoLoadBattleScene.cs" id="1_fwa17"]
 [ext_resource type="JSON" path="res://json/CombatMovesets/test_moveset.json" id="2_xuqv1"]
@@ -7,6 +7,8 @@
 [ext_resource type="JSON" path="res://json/CombatMovesets/test_moveset2.json" id="3_imi1d"]
 [ext_resource type="JSON" path="res://json/CombatMovesets/test_moveset3.json" id="4_aienq"]
 [ext_resource type="JSON" path="res://json/CombatMovesets/test_moveset4.json" id="5_4dxb8"]
+[ext_resource type="JSON" path="res://json/CombatantStats/test_stats.json" id="6_q0icl"]
+[ext_resource type="JSON" path="res://json/CombatantStats/CombatantProficiencies/test_proficiency.json" id="7_t78il"]
 [ext_resource type="PackedScene" uid="uid://7o8kyide8a7o" path="res://scenes/test_combatant.tscn" id="8_o4q7j"]
 [ext_resource type="PackedScene" uid="uid://4cnskqf3qhbr" path="res://scenes/test_ai_combatant.tscn" id="9_3a47u"]
 
@@ -17,6 +19,8 @@ partyRearguardCount = 1
 enemyVanguardCount = 4
 enemyRearguardCount = 3
 Movesets = Array[JSON]([ExtResource("2_xuqv1"), ExtResource("3_imi1d"), ExtResource("4_aienq"), ExtResource("5_4dxb8")])
+TestStats = ExtResource("6_q0icl")
+TestProficiencies = ExtResource("7_t78il")
 PartyVanguard = NodePath("party_vanguard")
 PartyRearguard = NodePath("party_rearguard")
 AllyVanguard = NodePath("ally_vanguard")

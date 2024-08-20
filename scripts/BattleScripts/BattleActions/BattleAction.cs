@@ -23,10 +23,13 @@ public abstract partial class BattleAction : Resource
 
     public double Duration;
 
+    public Random random;
+
     public BattleAction()
     {
         this.Targets = new();
         MagicTypes = new List<Magictype>();
+        random = new Random();
     }
 
     public BattleAction(Combatant source, Array<Combatant> targets)
@@ -106,5 +109,17 @@ public abstract partial class BattleAction : Resource
         _SetTargeting(targs);
 
         _ExecuteAction();
+    }
+
+    /** 
+        <summary>
+        Return bool from a double between [0.0, 1.0]. 
+        </summary>
+
+        <param name="hitChance"> Chance that the given action hits, between [0.0, 1.0]. </param>
+    **/
+    public bool _ActionHits(double hitChance)
+    {
+        return random.NextDouble() < hitChance;
     }
 }
