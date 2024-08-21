@@ -11,6 +11,7 @@ public partial class TestHealAction : BattleAction
         targetNum = 1;
 
         Duration = 0.5d;
+        DoesTargetSelf = true;
     }
 
     public override async void _ExecuteAction()

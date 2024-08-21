@@ -25,6 +25,8 @@ public abstract partial class BattleAction : Resource
 
     public Random random;
 
+    public bool DoesTargetSelf = false;
+
     public BattleAction()
     {
         this.Targets = new();

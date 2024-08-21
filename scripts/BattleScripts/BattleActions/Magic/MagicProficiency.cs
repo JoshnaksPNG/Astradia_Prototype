@@ -20,7 +20,7 @@ public class MagicProficiency
     **/
     public int this[Magictype magictype]
     {
-        get { return proficiencies[magictype.ToString().ToLower()]; }
-        set { proficiencies[magictype.ToString().ToLower()] = value; }
+        get { return proficiencies[magictype.ToString().ToLowerInvariant()]; }
+        set { proficiencies[magictype.ToString().ToLowerInvariant()] = value; }
     }
 }

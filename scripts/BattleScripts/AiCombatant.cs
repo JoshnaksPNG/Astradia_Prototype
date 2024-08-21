@@ -10,7 +10,10 @@ public partial class AiCombatant : Combatant
     public System.Collections.Generic.Dictionary<Combatant, int> AggroTable;
 
     public List<Combatant> HighestAggroCombatants;
+    public List<Combatant> ExposedAllies;
 
+    public List<CombatantGroup> AlliedVanguards = new();
+    protected List<Combatant> Friendlies = new();
 
     /** 
         <summary>
@@ -77,11 +80,31 @@ public partial class AiCombatant : Combatant
 
         Array<Combatant> targets = new();
 
-        //Debug.WriteLine(HighestAggroCombatants == null);
+        if (selectedMove.DoesTargetSelf)
+        {
+            Friendlies.Clear();
+            foreach (var vanguard in AlliedVanguards)
+            {
+                foreach (var friend in vanguard.Combatants)
+                {
+                    Friendlies.Add(friend);
+                }
+            }
+        }
+
         //Debug.WriteLine("Selecting Targets...");
         for (int i = 0; i < selectedMove.targetNum; ++i)
         {
-            Combatant t = HighestAggroCombatants[r.Next(HighestAggroCombatants.Count)];
+            Combatant t;
+            if (selectedMove.DoesTargetSelf)
+            {
+                t = Friendlies[r.Next(Friendlies.Count)];
+            }
+            else
+            {
+                t = HighestAggroCombatants[r.Next(HighestAggroCombatants.Count)];
+            }
+            
             //Combatant t = HighestAggroCombatants[0];
             targets.Add(t);
             //Debug.WriteLine($"Added target {t}");
@@ -167,5 +190,17 @@ public partial class AiCombatant : Combatant
         }
 
         _UpdateTargetedCombatants();
+    }
+
+    /** 
+        <summary>
+        Method to add Vanguard to ally group
+        </summary>
+
+        <param name="vanguard"> Allied vanguard. </param>
+    **/
+    public void _AddAlliedVanguard(CombatantGroup vanguard)
+    {
+        AlliedVanguards.Add(vanguard);
     }
 }

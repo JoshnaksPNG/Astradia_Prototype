@@ -40,6 +40,7 @@ public partial class BattleScene : Node2D
 
     protected int EnemySelectionIndex;
     protected int PartySelectionIndex;
+    protected int TargetIndex;
 
     protected List<ActionContext> ActionQueue;
 
@@ -55,11 +56,14 @@ public partial class BattleScene : Node2D
     protected Array<Combatant> SelectedTargets;
     protected BattleAction SelectedAction;
 
+    protected List<Combatant> Friendlies;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         ActionQueue = new();
         SelectedTargets = new();
+        Friendlies = new();
 
         PartySelectionIndex = 0;
         if (PartyVanguard.Combatants.Count > 0)
@@ -90,7 +94,7 @@ public partial class BattleScene : Node2D
                 break;
 
             case BattleState.GenerateAllyActions:
-
+                _GenerateAllyActions();
                 break;
 
             case BattleState.CallingQueue:
@@ -113,32 +117,29 @@ public partial class BattleScene : Node2D
 
     public void _ChoosingSource()
     {
+        int index_direction = 0;
         if (Input.IsActionJustPressed("ui_up"))
         {
-            if (PartySelectionIndex > 0)
-            {
-                --PartySelectionIndex;
-                PartyVanguard._SwitchFocus(PartySelectionIndex, PartySelectionIndex + 1);
-            }
-            else
-            {
-                PartySelectionIndex = PartyVanguard.Combatants.Count - 1;
-                PartyVanguard._SwitchFocus(PartySelectionIndex, 0);
-            }
+            index_direction = -1;
+        }
+        else if (Input.IsActionJustPressed("ui_down"))
+        {
+            index_direction = 1;
         }
 
-        if (Input.IsActionJustPressed("ui_down"))
+        if (index_direction != 0)
         {
-            if (PartySelectionIndex < PartyVanguard.Combatants.Count - 1)
+            int last_index = PartySelectionIndex;
+            PartySelectionIndex = (PartySelectionIndex + index_direction) % PartyVanguard.Combatants.Count;
+
+            if (PartySelectionIndex < 0)
             {
-                ++PartySelectionIndex;
-                PartyVanguard._SwitchFocus(PartySelectionIndex, PartySelectionIndex - 1);
+                PartySelectionIndex = PartyVanguard.Combatants.Count - 1;
             }
-            else
-            {
-                PartySelectionIndex = 0;
-                PartyVanguard._SwitchFocus(PartySelectionIndex, PartyVanguard.Combatants.Count - 1);
-            }
+
+
+
+            PartyVanguard._SwitchFocus(PartySelectionIndex, last_index);
         }
 
         if (Input.IsActionJustPressed("ui_interact"))
@@ -154,99 +155,61 @@ public partial class BattleScene : Node2D
 
     public void _ChoosingAction()
     {
+        if (Input.IsActionJustPressed("ui_cancel"))
+        {
+            CurrentState = BattleState.ChooseSource;
+
+            _CloseActions();
+
+            PartySelectionIndex = 0;
+            PartyVanguard.Combatants[PartySelectionIndex]._Focus();
+        }
+        
         foreach (var actionButton in ActionBox.GetChildren())
         {
-            try
+            ActionButton a = (ActionButton)actionButton;
+            if (a.ButtonPressed)
             {
-                ActionButton a = (ActionButton)actionButton;
-                if (a.ButtonPressed)
+                SelectedAction = a.AttachedAction;
+
+                _CloseActions();
+                TargetIndex = 0;
+                    
+                if (SelectedAction.targetNum != 0)
                 {
-                    SelectedAction = a.AttachedAction;
+                    if (SelectedAction.DoesTargetSelf)
+                    {
+                        Friendlies.Clear();
 
-                    _CloseActions();
-                    EnemySelectionIndex = 0;
+                        foreach (var f in PartyVanguard.Combatants)
+                        {
+                            Friendlies.Add(f);
+                        }
 
-                    if (SelectedAction.targetNum != 0)
+                        foreach (var f in AllyVanguard.Combatants)
+                        {
+                            Friendlies.Add(f);
+                        }
+
+                        Friendlies[TargetIndex]._Focus();
+                    } 
+                    else
                     {
                         EnemyVanguard.Combatants[EnemySelectionIndex]._Focus();
                     }
 
-                    CurrentState = BattleState.ChooseTarget;
-
-                    break;
+                        
                 }
-            }
-            catch
-            {
 
-            }
+                CurrentState = BattleState.ChooseTarget;
 
+                break;
+            }
         }
     }
 
     public void _ChoosingTarget()
     {
-        if (Input.IsActionJustPressed("ui_up"))
-        {
-            if (EnemySelectionIndex > 0)
-            {
-                --EnemySelectionIndex;
-                EnemyVanguard._SwitchFocus(EnemySelectionIndex, EnemySelectionIndex + 1);
-            }
-            else
-            {
-                EnemySelectionIndex = EnemyVanguard.Combatants.Count - 1;
-                EnemyVanguard._SwitchFocus(EnemySelectionIndex, 0);
-            }
-        }
-
-        if (Input.IsActionJustPressed("ui_down"))
-        {
-            if (EnemySelectionIndex < EnemyVanguard.Combatants.Count - 1)
-            {
-                ++EnemySelectionIndex;
-                EnemyVanguard._SwitchFocus(EnemySelectionIndex, EnemySelectionIndex - 1);
-            }
-            else
-            {
-                EnemySelectionIndex = 0;
-                EnemyVanguard._SwitchFocus(EnemySelectionIndex, EnemyVanguard.Combatants.Count - 1);
-            }
-        }
-
-        if (Input.IsActionJustPressed("ui_interact"))
-        {
-            SelectedTargets.Add(EnemyVanguard.Combatants[EnemySelectionIndex]);
-
-            if (SelectedAction.targetNum == SelectedTargets.Count)
-            {
-                ActionContext currentAction = new(SelectedSource, SelectedTargets, SelectedAction);
-
-                ActionQueue.Add(currentAction);
-                SelectedTargets.Clear();
-
-                EnemyVanguard.Combatants[EnemySelectionIndex]._Unfocus();
-
-                if (ActionQueue.Count < PartyVanguard.Combatants.Count)
-                {
-                    PartySelectionIndex = 0;
-                    PartyVanguard.Combatants[PartySelectionIndex]._Focus();
-                    CurrentState = BattleState.ChooseSource;
-                }
-                else
-                {
-                    if (AllyVanguard != null && AllyVanguard.Combatants.Count > 0)
-                    {
-                        CurrentState = BattleState.GenerateAllyActions;
-                    }
-                    else
-                    {
-                        CurrentState = BattleState.CallingQueue;
-                    }
-                }
-            }
-        }
-
         if (SelectedAction.targetNum == 0)
         {
             ActionContext currentAction = new(SelectedSource, SelectedTargets, SelectedAction);
@@ -276,7 +239,105 @@ public partial class BattleScene : Node2D
             }
         }
 
+        int index_direction = 0;
+        if (Input.IsActionJustPressed("ui_up"))
+        {
+            index_direction = -1;
+        }
+        else if (Input.IsActionJustPressed("ui_down"))
+        {
+            index_direction = 1;
+        }
 
+        if (index_direction != 0)
+        {
+            int last_index = TargetIndex;
+            int target_group_count = SelectedAction.DoesTargetSelf ? Friendlies.Count : EnemyVanguard.Combatants.Count;
+
+            TargetIndex = (TargetIndex + index_direction) % target_group_count;
+
+            if (TargetIndex < 0)
+            {
+                TargetIndex = target_group_count - 1;
+            }
+
+            if (SelectedAction.DoesTargetSelf)
+            {
+                CombatantGroup._SwitchFocusByReference(Friendlies[TargetIndex], Friendlies[last_index]);
+            }
+            else
+            {
+                EnemyVanguard._SwitchFocus(TargetIndex, last_index);
+            }
+
+            
+        }
+
+        if (Input.IsActionJustPressed("ui_interact"))
+        {
+            if (SelectedAction.DoesTargetSelf)
+            {
+                SelectedTargets.Add(Friendlies[TargetIndex]);
+            }
+            else
+            {
+                SelectedTargets.Add(EnemyVanguard.Combatants[TargetIndex]);
+            }
+            
+
+            if (SelectedAction.targetNum == SelectedTargets.Count)
+            {
+                ActionContext currentAction = new(SelectedSource, SelectedTargets, SelectedAction);
+
+                ActionQueue.Add(currentAction);
+                SelectedTargets.Clear();
+
+                if (SelectedAction.DoesTargetSelf)
+                {
+                    Friendlies[TargetIndex]._Unfocus();
+                }
+                else
+                {
+                    EnemyVanguard.Combatants[TargetIndex]._Unfocus();
+                }
+                
+
+                if (ActionQueue.Count < PartyVanguard.Combatants.Count)
+                {
+                    PartySelectionIndex = 0;
+                    PartyVanguard.Combatants[PartySelectionIndex]._Focus();
+                    CurrentState = BattleState.ChooseSource;
+                }
+                else
+                {
+                    if (AllyVanguard != null && AllyVanguard.Combatants.Count > 0)
+                    {
+                        CurrentState = BattleState.GenerateAllyActions;
+                    }
+                    else
+                    {
+                        CurrentState = BattleState.CallingQueue;
+                    }
+                }
+            }
+        }
+
+        if (Input.IsActionJustPressed("ui_cancel"))
+        {
+            CurrentState = BattleState.ChooseSource;
+
+            if (SelectedAction.DoesTargetSelf)
+            {
+                Friendlies[TargetIndex]._Unfocus();
+            }
+            else
+            {
+                EnemyVanguard.Combatants[TargetIndex]._Unfocus();
+            }
+
+            PartySelectionIndex = 0;
+            PartyVanguard.Combatants[PartySelectionIndex]._Focus();
+        }
     }
 
     public async void _CallingActionQueue()
@@ -364,6 +425,27 @@ public partial class BattleScene : Node2D
             }
 
             CurrentState = BattleState.CallEnemyActions;
+
+            IsGeneratingMoves = false;
+        }
+    }
+
+    public async Task _GenerateAllyActions()
+    {
+        if (!IsGeneratingMoves)
+        {
+            IsGeneratingMoves = true;
+
+            foreach (var ally in AllyVanguard.Combatants)
+            {
+                AiCombatant a = (AiCombatant)ally;
+
+                ActionContext ctx = a.DecideOnAction();
+
+                ActionQueue.Add(ctx);
+            }
+
+            CurrentState = BattleState.CallingQueue;
 
             IsGeneratingMoves = false;
         }
@@ -465,21 +547,14 @@ public partial class BattleScene : Node2D
 
         for (int i = 0; i < rearguard.Count; i++)
         {
-            //if (i < rearguard.Count)
-            {
-                ((Combatant)vanguard[i]).SwapPartner = ((Combatant)rearguard[i]);
-                ((Combatant)vanguard[i]).HasPartner = true;
+            ((Combatant)vanguard[i]).SwapPartner = ((Combatant)rearguard[i]);
+            ((Combatant)vanguard[i]).HasPartner = true;
 
-                ((Combatant)rearguard[i]).SwapPartner = ((Combatant)vanguard[i]);
-                ((Combatant)rearguard[i]).HasPartner = true;
+            ((Combatant)rearguard[i]).SwapPartner = ((Combatant)vanguard[i]);
+            ((Combatant)rearguard[i]).HasPartner = true;
 
-                ((Combatant)vanguard[i]).Moveset.Add(new SwapAction());
-                ((Combatant)rearguard[i]).Moveset.Add(new SwapAction());
-            }
-            //else
-            {
-                //((Combatant)vanguard[i]).HasPartner = false;
-            }
+            ((Combatant)vanguard[i]).Moveset.Add(new SwapAction());
+            ((Combatant)rearguard[i]).Moveset.Add(new SwapAction());
 
         }
 
@@ -488,22 +563,14 @@ public partial class BattleScene : Node2D
 
         for (int i = 0; i < enemy_rearguard.Count; i++)
         {
-            //if (i < rearguard.Count)
-            {
-                ((Combatant)enemy_vanguard[i]).SwapPartner = ((Combatant)enemy_rearguard[i]);
-                ((Combatant)enemy_vanguard[i]).HasPartner = true;
+            ((Combatant)enemy_vanguard[i]).SwapPartner = ((Combatant)enemy_rearguard[i]);
+            ((Combatant)enemy_vanguard[i]).HasPartner = true;
 
-                ((Combatant)enemy_rearguard[i]).SwapPartner = ((Combatant)enemy_vanguard[i]);
-                ((Combatant)enemy_rearguard[i]).HasPartner = true;
+            ((Combatant)enemy_rearguard[i]).SwapPartner = ((Combatant)enemy_vanguard[i]);
+            ((Combatant)enemy_rearguard[i]).HasPartner = true;
 
-                ((Combatant)enemy_vanguard[i]).Moveset.Add(new SwapAction());
-                ((Combatant)enemy_rearguard[i]).Moveset.Add(new SwapAction());
-            }
-            //else
-            {
-                //((Combatant)vanguard[i]).HasPartner = false;
-            }
-
+            ((Combatant)enemy_vanguard[i]).Moveset.Add(new SwapAction());
+            ((Combatant)enemy_rearguard[i]).Moveset.Add(new SwapAction());
         }
     }
 

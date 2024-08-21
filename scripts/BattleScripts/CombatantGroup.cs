@@ -45,10 +45,16 @@ public partial class CombatantGroup : Node2D
         }
     }
 
-    public void _SwitchFocus(int a, int b)
+    public void _SwitchFocus(int focus_in, int focus_out)
     {
-        Combatants[a]._Focus();
-        Combatants[b]._Unfocus();
+        Combatants[focus_in]._Focus();
+        Combatants[focus_out]._Unfocus();
+    }
+
+    public static void _SwitchFocusByReference(Combatant focus_in, Combatant focus_out)
+    {
+        focus_in._Focus();
+        focus_out._Unfocus();
     }
 
     public void _SwapChild(Combatant current, Combatant replacement)
