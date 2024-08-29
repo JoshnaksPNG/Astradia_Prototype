@@ -1,0 +1,89 @@
+[gd_scene load_steps=6 format=3 uid="uid://cpdi4ha3amtcs"]
+
+[ext_resource type="Script" path="res://scripts/ScreenSplitter.cs" id="1_w8120"]
+[ext_resource type="Texture2D" uid="uid://bw4ynbdoebqyo" path="res://assets/DialogueTestBox.png" id="2_fq0va"]
+
+[sub_resource type="Animation" id="Animation_jx6jt"]
+resource_name = "flash"
+length = 0.75
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Left:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.733333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0.45, 0.45, 1), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Right:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.733333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0.45, 0.45, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_7yytk"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Left:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Right:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1py23"]
+_data = {
+"RESET": SubResource("Animation_7yytk"),
+"flash": SubResource("Animation_jx6jt")
+}
+
+[node name="Node2D" type="Node2D" node_paths=PackedStringArray("Left", "Right", "Basis", "Animator")]
+script = ExtResource("1_w8120")
+Left = NodePath("Left")
+Right = NodePath("Right")
+Basis = NodePath("Basis")
+Animator = NodePath("Animator")
+
+[node name="Basis" type="Polygon2D" parent="."]
+visible = false
+polygon = PackedVector2Array(0, 0, 0, 1440, 1040, 1440, 2560, 1440, 2560, 0, 1520, 0)
+
+[node name="Left" type="Polygon2D" parent="."]
+texture = ExtResource("2_fq0va")
+polygon = PackedVector2Array(0, 0, 0, 1440, 1040, 1440, 1520, 0)
+
+[node name="Right" type="Polygon2D" parent="."]
+texture = ExtResource("2_fq0va")
+polygon = PackedVector2Array(1040, 1440, 2560, 1440, 2560, 0, 1520, 0)
+
+[node name="Animator" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_1py23")
+}

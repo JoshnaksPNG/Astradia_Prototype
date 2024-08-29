@@ -1,0 +1,100 @@
+[gd_scene load_steps=4 format=3 uid="uid://dr0emjf3uuqq7"]
+
+[ext_resource type="Script" path="res://scripts/BattleScripts/LoadedBattleScene.cs" id="1_n4np3"]
+[ext_resource type="Texture2D" uid="uid://but5veufwwrbh" path="res://assets/battleBackground2.png" id="8_ruifw"]
+[ext_resource type="Script" path="res://scripts/BattleScripts/CombatantGroup.cs" id="9_dwx8c"]
+
+[node name="test_loaded_battle_scene" type="Node2D" node_paths=PackedStringArray("PartyVanguard", "PartyRearguard", "AllyVanguard", "AllyRearguard", "EnemyVanguard", "EnemyRearguard", "ChoiceBox", "ActionBox", "BattleActionView")]
+script = ExtResource("1_n4np3")
+PartyVanguard = NodePath("party_vanguard")
+PartyRearguard = NodePath("party_rearguard")
+AllyVanguard = NodePath("ally_vanguard")
+AllyRearguard = NodePath("ally_rearguard")
+EnemyVanguard = NodePath("enemy_vanguard")
+EnemyRearguard = NodePath("enemy_rearguard")
+ChoiceBox = NodePath("UI/Choice")
+ActionBox = NodePath("UI/BattleActionNode/ActionBox")
+BattleActionView = NodePath("UI/BattleActionNode")
+ActionButtonScenePath = "res://scenes/action_button.tscn"
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = -107.0
+offset_top = -66.0
+offset_right = 2690.0
+offset_bottom = 1515.0
+texture = ExtResource("8_ruifw")
+metadata/_edit_use_anchors_ = true
+
+[node name="enemy_vanguard" type="Node2D" parent="."]
+position = Vector2(2257, 0)
+script = ExtResource("9_dwx8c")
+
+[node name="enemy_rearguard" type="Node2D" parent="."]
+position = Vector2(2853, 0)
+script = ExtResource("9_dwx8c")
+
+[node name="party_vanguard" type="Node2D" parent="."]
+position = Vector2(498, 2)
+script = ExtResource("9_dwx8c")
+
+[node name="party_rearguard" type="Node2D" parent="."]
+position = Vector2(-247, 0)
+script = ExtResource("9_dwx8c")
+
+[node name="ally_vanguard" type="Node2D" parent="."]
+position = Vector2(197, 94)
+script = ExtResource("9_dwx8c")
+
+[node name="ally_rearguard" type="Node2D" parent="."]
+position = Vector2(-292, 4)
+script = ExtResource("9_dwx8c")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Choice" type="VBoxContainer" parent="UI"]
+offset_left = 2.0
+offset_top = 1179.0
+offset_right = 426.0
+offset_bottom = 1433.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Attack" type="Button" parent="UI/Choice"]
+visible = false
+layout_mode = 2
+text = "Attack"
+
+[node name="Defend" type="Button" parent="UI/Choice"]
+visible = false
+layout_mode = 2
+text = "Defend"
+
+[node name="Run" type="Button" parent="UI/Choice"]
+visible = false
+layout_mode = 2
+text = "Run"
+
+[node name="BattleActionNode" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 366.0
+offset_top = 57.0
+offset_right = 776.0
+offset_bottom = 357.0
+metadata/_edit_use_anchors_ = true
+
+[node name="ActionBox" type="VBoxContainer" parent="UI/BattleActionNode"]
+layout_mode = 0
+offset_left = 255.0
+offset_top = 107.0
+offset_right = 1391.0
+offset_bottom = 1015.0
+metadata/_edit_use_anchors_ = true
+
+[node name="ActionQueue" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 715.0
+offset_top = 380.0
+offset_right = 755.0
+offset_bottom = 420.0
+metadata/_edit_use_anchors_ = true
